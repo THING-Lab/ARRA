@@ -150,7 +150,7 @@ PlayerSettings:
       sharedDepthBuffer: 1
       dashSupport: 1
     enable360StereoCapture: 0
-  isWsaHolographicRemotingEnabled: 0
+  isWsaHolographicRemotingEnabled: 1
   protectGraphicsMemory: 0
   enableFrameTimingStats: 0
   useHDRDisplay: 0
