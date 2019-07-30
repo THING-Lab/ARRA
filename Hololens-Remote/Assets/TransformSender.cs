@@ -1,28 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using UnityEngine;
-
-[System.Serializable]
-public class CameraTransform {
-    public List<float> position = new List<float>();
-    public List<float> rotation = new List<float>();
-
-    public void SetAttributes(Transform t) {
-        position.Clear();
-        position.Add(t.position.x);
-        position.Add(t.position.y);
-        position.Add(t.position.z);
-        rotation.Clear();
-        rotation.Add(t.rotation.x);
-        rotation.Add(t.rotation.y);
-        rotation.Add(t.rotation.z);
-        rotation.Add(t.rotation.w);
-    }
-}
 
 public class TransformSender : MonoBehaviour
 {
@@ -32,6 +16,10 @@ public class TransformSender : MonoBehaviour
     private float frameTime = 0f;
     private float FRAME_MAX = 0.03f;
     private CameraTransform cameraSerial = new CameraTransform();
+    public GameObject pingTarget;
+    private ScenePing ping;
+    private bool shouldUpdateTransform = false;
+    public float scaleFactor = 1f;
 
     // Use this for initialization
     void Start () {
@@ -45,11 +33,16 @@ public class TransformSender : MonoBehaviour
             cameraSerial.SetAttributes(transform);
             SendJSON(JsonUtility.ToJson(cameraSerial));
         }
+
+        if (shouldUpdateTransform) {
+            shouldUpdateTransform = false;
+            pingTarget.transform.position = new Vector3(ping.position[0]/scaleFactor, ping.position[1]/scaleFactor, ping.position[2]/scaleFactor);
+        }
     }
 
     private void ConnectToTcpServer () {
         try {
-            clientReceiveThread = new Thread (new ThreadStart(ListenForData));
+            clientReceiveThread = new Thread(new ThreadStart(ListenForData));
             clientReceiveThread.IsBackground = true;
             clientReceiveThread.Start();
         }       
@@ -61,6 +54,18 @@ public class TransformSender : MonoBehaviour
     private void ListenForData() {
         try {
             socketConnection = new TcpClient("localhost", port);
+
+            while (true) {
+                // Get a stream object for reading
+                using (NetworkStream stream = socketConnection.GetStream()) {
+                    StreamReader reader = new StreamReader(stream, Encoding.ASCII);
+                    while(true) {
+                        string json = reader.ReadLine();
+                        ping = JsonUtility.FromJson<ScenePing>(json);
+                        shouldUpdateTransform = true;
+                    }               
+                }
+			}
         }
         catch (SocketException socketException) {
             Debug.Log("Socket exception: " + socketException);
