@@ -13,6 +13,7 @@ public class TransformSender : MonoBehaviour
     private TcpClient socketConnection;     
     private Thread clientReceiveThread;
     public int port;
+    public string ip;
     private float frameTime = 0f;
     private float FRAME_MAX = 0.03f;
     private CameraTransform cameraSerial = new CameraTransform();
@@ -53,7 +54,7 @@ public class TransformSender : MonoBehaviour
 
     private void ListenForData() {
         try {
-            socketConnection = new TcpClient("localhost", port);
+            socketConnection = new TcpClient(ip, port);
 
             while (true) {
                 // Get a stream object for reading

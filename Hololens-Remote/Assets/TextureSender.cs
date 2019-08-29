@@ -39,7 +39,7 @@ public class TextureSender : MonoBehaviour
         }
 
         // assuming the first available WebCam is desired
-        webcam = new WebCamTexture(devices[0].name, width, height, fps);
+        webcam = new WebCamTexture(devices[1].name, width, height, fps);
         webcam.Play();
         tex = new Texture2D(width, height);
         // Start sending coroutine
