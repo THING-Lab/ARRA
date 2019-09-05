@@ -9,7 +9,7 @@
 - Make sure the camera is plugged in to the laptop
 - By default the Webcam streaming object is disabled, enable it for a video stream in the Inspector
 - Make sure the Hololens is on, and running the Remoting App
-- Connect to the Hololens in Unity via the remoting tab (it should be at the bottom)
-- Place the Hololens on the calibration point
+- Connect to the Hololens in Unity via the Holographic tab (it should be at the bottom)
+- Place the Hololens on the calibration point, align it parallel with the duck tape line.
 - Make sure the Desktop app is running first
 - Run the project from the laptop and it should connect to Hololens
