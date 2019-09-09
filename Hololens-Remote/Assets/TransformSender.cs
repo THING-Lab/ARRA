@@ -104,7 +104,7 @@ public class TransformSender : MonoBehaviour
             // Get a stream object for writing.
             byte[] clientMessageAsByteArray = Encoding.ASCII.GetBytes(msg + "\r\n");
             // Write byte array to socketConnection.
-            stream.Write(clientMessageAsByteArray, clientMessageAsByteArray.Length);
+            socketConnection.Send(clientMessageAsByteArray, clientMessageAsByteArray.Length);
 
         }
         catch (SocketException socketException) {
