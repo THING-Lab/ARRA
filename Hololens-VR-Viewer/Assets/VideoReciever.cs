@@ -1,16 +1,16 @@
 ﻿using System;
-using System.Collections; 
-using System.Collections.Generic; 
-using System.Net; 
-using System.Net.Sockets; 
-using System.Text; 
-using System.Threading; 
+using System.Collections;
+using System.Collections.Generic;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading;
 using UnityEngine;
 
 public class VideoReciever : MonoBehaviour
 {
     private TcpListener tcpListener;
-    private Thread tcpListenerThread;
+    private Thread udpListenerThread;
     private TcpClient connectedTcpClient;
     public int messageByteLength = 24;
     public int port = 4444;
@@ -21,10 +21,10 @@ public class VideoReciever : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Start TcpServer background thread
-        tcpListenerThread = new Thread(new ThreadStart(ListenForTextures));
-        tcpListenerThread.IsBackground = true;
-        tcpListenerThread.Start();
+        //Start UDP reciever background thread
+        udpListenerThread = new Thread(new ThreadStart(ListenForTextures));
+        udpListenerThread.IsBackground = true;
+        udpListenerThread.Start();
         tex = new Texture2D(640, 480);
         GetComponent<Renderer>().material.mainTexture = tex;
     }
@@ -84,25 +84,25 @@ public class VideoReciever : MonoBehaviour
         // }
     }
 
-    private void ListenForTextures() {      
-        try {           
-            // Create listener on localhost port 8052.          
-            tcpListener = new TcpListener(IPAddress.Any, 4444);             
-            tcpListener.Start();              
+    private void ListenForTextures() {
+        try {
+            // Create listener on localhost port 8052.
+            // tcpListener = new TcpListener(IPAddress.Any, 4444);
+            // tcpListener.Start();
             Debug.Log("Server is listening");
             while (true) {
-                TcpClient c = tcpListener.AcceptTcpClient();
+                var c = UdpClient.Receive(ref from);
                 while (true) {
                     // Read Image Count
                     int imageSize = readImageByteSize(c.GetStream(), messageByteLength);
                     //Read Image Bytes and Display it
                     readFrameByteArray(c.GetStream(), imageSize);
-                }       
-            }       
-        }       
-        catch (SocketException socketException) {           
-            Debug.Log("SocketException " + socketException.ToString());       
-        }     
+                }
+            }
+        }
+        catch (SocketException socketException) {
+            Debug.Log("SocketException " + socketException.ToString());
+        }
     }
 
     public bool ShowImage(byte[] imageData) {

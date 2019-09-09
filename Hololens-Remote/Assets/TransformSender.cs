@@ -10,7 +10,8 @@ using UnityEngine;
 
 public class TransformSender : MonoBehaviour
 {
-    private TcpClient socketConnection;     
+    private UdpClient socketConnection;
+    //private TcpClient socketConnection;
     private Thread clientReceiveThread;
     public int port;
     public string ip;
@@ -41,38 +42,59 @@ public class TransformSender : MonoBehaviour
         }
     }
 
+    //Becomes less needed with UDP, as it's connectionless
     private void ConnectToTcpServer () {
         try {
-            clientReceiveThread = new Thread(new ThreadStart(ListenForData));
-            clientReceiveThread.IsBackground = true;
-            clientReceiveThread.Start();
-        }       
+            socketConnection.Connect(ip,port);
+        }
         catch (Exception e) {
             Debug.Log("On client connect exception " + e);
         }
-    }   
-
-    private void ListenForData() {
-        try {
-            socketConnection = new TcpClient(ip, port);
-
-            while (true) {
-                // Get a stream object for reading
-                using (NetworkStream stream = socketConnection.GetStream()) {
-                    StreamReader reader = new StreamReader(stream, Encoding.ASCII);
-                    while(true) {
-                        string json = reader.ReadLine();
-                        ping = JsonUtility.FromJson<ScenePing>(json);
-                        shouldUpdateTransform = true;
-                    }               
-                }
-			}
-        }
-        catch (SocketException socketException) {
-            Debug.Log("Socket exception: " + socketException);
-        }
     }
- 
+
+    //Also less needed with UDP
+    // private void ListenForData() {
+    //     try {
+    //         socketConnection = new TcpClient(ip, port);
+    //
+    //         while (true) {
+    //             // Get a stream object for reading
+    //             using (NetworkStream stream = socketConnection.GetStream()) {
+    //                 StreamReader reader = new StreamReader(stream, Encoding.ASCII);
+    //                 while(true) {
+    //                     string json = reader.ReadLine();
+    //                     ping = JsonUtility.FromJson<ScenePing>(json);
+    //                     shouldUpdateTransform = true;
+    //                 }
+    //             }
+		// 	}
+    //     }
+    //     catch (SocketException socketException) {
+    //         Debug.Log("Socket exception: " + socketException);
+    //     }
+    // }
+
+
+    //LEGACY TCP CODE
+    // private void SendJSON(string msg) {
+    //     if (socketConnection == null) {
+    //         return;
+    //     }
+    //
+    //     try {
+    //         // Get a stream object for writing.
+    //         NetworkStream stream = socketConnection.GetStream();
+    //         if (stream.CanWrite) {
+    //             // Convert string message to byte array.
+    //             byte[] clientMessageAsByteArray = Encoding.ASCII.GetBytes(msg + "\r\n");
+    //             // Write byte array to socketConnection stream.
+    //             stream.Write(clientMessageAsByteArray, 0, clientMessageAsByteArray.Length);
+    //         }
+    //     }
+    //     catch (SocketException socketException) {
+    //         Debug.Log("Socket exception: " + socketException);
+    //     }
+    // }
     private void SendJSON(string msg) {
         if (socketConnection == null) {
             return;
@@ -80,17 +102,13 @@ public class TransformSender : MonoBehaviour
 
         try {
             // Get a stream object for writing.
-            NetworkStream stream = socketConnection.GetStream();
-            if (stream.CanWrite) {
-                // Convert string message to byte array.
-                byte[] clientMessageAsByteArray = Encoding.ASCII.GetBytes(msg + "\r\n");
-                // Write byte array to socketConnection stream.
-                stream.Write(clientMessageAsByteArray, 0, clientMessageAsByteArray.Length);
-            }
+            byte[] clientMessageAsByteArray = Encoding.ASCII.GetBytes(msg + "\r\n");
+            // Write byte array to socketConnection.
+            stream.Write(clientMessageAsByteArray, clientMessageAsByteArray.Length);
+
         }
         catch (SocketException socketException) {
             Debug.Log("Socket exception: " + socketException);
         }
     }
 }
-
