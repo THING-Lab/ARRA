@@ -89,15 +89,15 @@ public class VideoReciever : MonoBehaviour
             // Create listener on localhost port 8052.
             // tcpListener = new TcpListener(IPAddress.Any, 4444);
             // tcpListener.Start();
-            var udpListener = new UdpClient(8052);
+            var udpListener = new UdpClient(4444);
             Debug.Log("Server is listening");
             while (true) {
-                var remoteEP =  new IPEndPoint(IPAddress.Any, 8052);
+                var remoteEP =  new IPEndPoint(IPAddress.Any, 4444);
                 var c = udpListener.Receive(ref remoteEP);
                 while (true) {
                     // Read Image Count
-                    Debug.Log(c);
-                    int imageSize = c.Length;
+                    //Debug.Log(c);
+                    int imageSize =  frameByteArrayToByteLength(c);
                     //Read Image Bytes and Display it
                     readFrameByteArray(c, imageSize);
                 }
