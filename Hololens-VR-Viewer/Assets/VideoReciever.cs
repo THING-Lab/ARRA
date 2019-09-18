@@ -55,19 +55,19 @@ public class VideoReciever : MonoBehaviour
         return byteLength;
     }
 
-    private void readFrameByteArray(NetworkStream stream, int size) {
-        bool disconnected = false;
-        byte[] imageBytes = new byte[size];
-        var total = 0;
-        do {
-                var read = stream.Read(imageBytes, total, size - total);
-                if (read == 0)
-                {
-                disconnected = true;
-                break;
-                }
-                total += read;
-        } while (total != size);
+    private void readFrameByteArray(byte[] stream, int size) {
+        // bool disconnected = false;
+        // byte[] imageBytes = new byte[size];
+        // var total = 0;
+        // do {
+        //         var read = stream.Read(imageBytes, total, size - total);
+        //         if (read == 0)
+        //         {
+        //         disconnected = true;
+        //         break;
+        //         }
+        //         total += read;
+        // } while (total != size);
         // bool readyToReadAgain = false;
         // //Display Image
         // if (!disconnected) {
@@ -77,7 +77,7 @@ public class VideoReciever : MonoBehaviour
         //              readyToReadAgain = true;
         //      });
         // }
-        ShowImage(imageBytes);
+        ShowImage(stream);
         //Wait until old Image is displayed
         // while (!readyToReadAgain) {
         //      System.Threading.Thread.Sleep(1);
@@ -89,14 +89,17 @@ public class VideoReciever : MonoBehaviour
             // Create listener on localhost port 8052.
             // tcpListener = new TcpListener(IPAddress.Any, 4444);
             // tcpListener.Start();
+            var udpListener = new UdpClient(4444);
             Debug.Log("Server is listening");
             while (true) {
-                var c = UdpClient.Receive(IPAddress.Any, port);
+                var remoteEP =  new IPEndPoint(IPAddress.Any, 4444);
+                var c = udpListener.Receive(ref remoteEP);
                 while (true) {
                     // Read Image Count
-                    int imageSize = readImageByteSize(c.GetStream(), messageByteLength);
+                    //Debug.Log(c);
+                    int imageSize =  frameByteArrayToByteLength(c);
                     //Read Image Bytes and Display it
-                    readFrameByteArray(c.GetStream(), imageSize);
+                    readFrameByteArray(c, imageSize);
                 }
             }
         }

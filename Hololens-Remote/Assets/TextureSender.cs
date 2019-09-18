@@ -25,7 +25,7 @@ public class TextureSender : MonoBehaviour
     public int messageByteLength = 24;
     Thread clientReceiveThread;
     Thread texSendThread;
-    TcpClient client;
+    UdpClient client;
     NetworkStream stream = null;
     bool isConnected = false;
 
@@ -39,7 +39,7 @@ public class TextureSender : MonoBehaviour
         }
 
         // assuming the first available WebCam is desired
-        webcam = new WebCamTexture(devices[1].name, width, height, fps);
+        webcam = new WebCamTexture(devices[0].name, width, height, fps);
         webcam.Play();
         tex = new Texture2D(width, height);
         // Start sending coroutine
@@ -50,19 +50,21 @@ public class TextureSender : MonoBehaviour
     void ConnectToServer() {
         Debug.Log("Connect");
         // Connect to the server
-        try {           
+        try {
             clientReceiveThread = new Thread(new ThreadStart(() => {
-                client = new TcpClient(ip, port);
+                client = new UdpClient();
+                IPEndPoint remoteEP = new IPEndPoint(IPAddress.Parse(ip), port);
+                client.Connect(remoteEP);
                 // Listen for server messages here
-                stream = client.GetStream();
+                //stream = client.GetStream();
                 Debug.Log("Connected");
-            }));            
-            clientReceiveThread.IsBackground = true;            
+            }));
+            clientReceiveThread.IsBackground = true;
             clientReceiveThread.Start();
-        }       
-        catch (Exception e) {           
+        }
+        catch (Exception e) {
             Debug.Log("On client connect exception " + e);
-        } 
+        }
     }
 
     void byteLengthToFrameByteArray(int byteLength, byte[] fullBytes) {
@@ -84,7 +86,7 @@ public class TextureSender : MonoBehaviour
             //Wait for End of frame
             yield return endOfFrame;
             byte[] imageBytes = tex.EncodeToJPG();
-            
+
             //Fill total byte length to send. Result is stored in frameBytesLength
             byteLengthToFrameByteArray(imageBytes.Length, frameBytesLength);
             if (stream != null) {
@@ -95,8 +97,8 @@ public class TextureSender : MonoBehaviour
                     stream.Write(imageBytes, 0, imageBytes.Length);
                     //Sent. Set readyToGetFrame true
                     readyToGetFrame = false;
-                }));            
-                texSendThread.IsBackground = true;          
+                }));
+                texSendThread.IsBackground = true;
                 texSendThread.Start();
             } else {
                 readyToGetFrame = false;

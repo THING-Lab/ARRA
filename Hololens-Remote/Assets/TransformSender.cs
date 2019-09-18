@@ -45,7 +45,11 @@ public class TransformSender : MonoBehaviour
     //Becomes less needed with UDP, as it's connectionless
     private void ConnectToTcpServer () {
         try {
-            socketConnection.Connect(ip,port);
+            socketConnection = new UdpClient();
+            var remoteEP = new IPEndPoint(IPAddress.Parse(ip), port);
+            socketConnection.Connect(remoteEP);
+            Debug.Log("Connected!");
+
         }
         catch (Exception e) {
             Debug.Log("On client connect exception " + e);
@@ -105,7 +109,6 @@ public class TransformSender : MonoBehaviour
             byte[] clientMessageAsByteArray = Encoding.ASCII.GetBytes(msg + "\r\n");
             // Write byte array to socketConnection.
             socketConnection.Send(clientMessageAsByteArray, clientMessageAsByteArray.Length);
-
         }
         catch (SocketException socketException) {
             Debug.Log("Socket exception: " + socketException);
