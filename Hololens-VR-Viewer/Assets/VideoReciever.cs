@@ -91,8 +91,8 @@ public class VideoReciever : MonoBehaviour
             // tcpListener.Start();
             var udpListener = new UdpClient(4444);
             Debug.Log("Server is listening");
+            var remoteEP =  new IPEndPoint(IPAddress.Any, 4444);
             while (true) {
-                var remoteEP =  new IPEndPoint(IPAddress.Any, 4444);
                 var c = udpListener.Receive(ref remoteEP);
                 while (true) {
                     // Read Image Count
