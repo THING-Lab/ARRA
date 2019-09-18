@@ -25,7 +25,7 @@ public class TextureSender : MonoBehaviour
     public int messageByteLength = 24;
     Thread clientReceiveThread;
     Thread texSendThread;
-    UdpClient client;
+    TcpClient client;
     NetworkStream stream = null;
     bool isConnected = false;
 
@@ -52,11 +52,14 @@ public class TextureSender : MonoBehaviour
         // Connect to the server
         try {
             clientReceiveThread = new Thread(new ThreadStart(() => {
-                client = new UdpClient();
-                IPEndPoint remoteEP = new IPEndPoint(IPAddress.Parse(ip), port);
-                client.Connect(remoteEP);
+                client = new TcpClient(ip, port);
+                //CODE FOR UDP POSSIBLITY
+                // client = new UdpClient();
+                // IPEndPoint remoteEP = new IPEndPoint(IPAddress.Parse(ip), port);
+                // client.Connect(remoteEP);
+
                 // Listen for server messages here
-                //stream = client.GetStream();
+                stream = client.GetStream();
                 Debug.Log("Connected");
             }));
             clientReceiveThread.IsBackground = true;
