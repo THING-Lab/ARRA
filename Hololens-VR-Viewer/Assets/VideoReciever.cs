@@ -91,7 +91,7 @@ public class VideoReciever : MonoBehaviour
             // tcpListener.Start();
             Debug.Log("Server is listening");
             while (true) {
-                var c = UdpClient.Receive(ref ip);
+                var c = UdpClient.Receive(IPAddress.Any, port);
                 while (true) {
                     // Read Image Count
                     int imageSize = readImageByteSize(c.GetStream(), messageByteLength);
