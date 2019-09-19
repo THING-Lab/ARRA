@@ -256,7 +256,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 640
   height: 480
-  fps: 24
+  fps: 30
   ip: 192.168.1.106
   port: 4444
   messageByteLength: 24
