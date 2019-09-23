@@ -20,12 +20,14 @@ public class TextureSender : MonoBehaviour
     float frameTime = 0f;
     float FRAME_MAX = 0.2f;
     bool stop = false;
-    public string ip = "localhost";
+    //public string ip = "localhost";
+    public string ip = "192.168.1.106";
     public int port = 4444;
     public int messageByteLength = 24;
     Thread clientReceiveThread;
     Thread texSendThread;
-    TcpClient client;
+    // TcpClient client;
+    UdpClient client;
     NetworkStream stream = null;
     bool isConnected = false;
 
@@ -52,14 +54,15 @@ public class TextureSender : MonoBehaviour
         // Connect to the server
         try {
             clientReceiveThread = new Thread(new ThreadStart(() => {
-                client = new TcpClient(ip, port);
+                client = new UdpClient(port);
+                client.Connect(ip, port);
                 //CODE FOR UDP POSSIBLITY
                 // client = new UdpClient();
                 // IPEndPoint remoteEP = new IPEndPoint(IPAddress.Parse(ip), port);
                 // client.Connect(remoteEP);
 
                 // Listen for server messages here
-                stream = client.GetStream();
+                // stream = client.GetStream();
                 Debug.Log("Connected");
             }));
             clientReceiveThread.IsBackground = true;
@@ -92,12 +95,12 @@ public class TextureSender : MonoBehaviour
 
             //Fill total byte length to send. Result is stored in frameBytesLength
             byteLengthToFrameByteArray(imageBytes.Length, frameBytesLength);
-            if (stream != null) {
+            if (client != null) {
                 texSendThread = new Thread(new ThreadStart(() => {
                     //Send total byte count first
-                    stream.Write(frameBytesLength, 0, frameBytesLength.Length);
+                    client.Send(frameBytesLength, frameBytesLength.Length);
                     //Send the image bytes
-                    stream.Write(imageBytes, 0, imageBytes.Length);
+                    client.Send(imageBytes, imageBytes.Length);
                     //Sent. Set readyToGetFrame true
                     readyToGetFrame = false;
                 }));
