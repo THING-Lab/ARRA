@@ -98,7 +98,7 @@ public class VideoReciever : MonoBehaviour
                     //Debug.Log(c);
                     var c = udpListener.Receive(ref remoteEP);
                     int imageSize =  frameByteArrayToByteLength(c);
-                    var c = udpListener.Receive(ref remoteEP);
+                    c = udpListener.Receive(ref remoteEP);
                     //Read Image Bytes and Display it
                     readFrameByteArray(c, imageSize);
                 }
