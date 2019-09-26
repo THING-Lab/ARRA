@@ -16,14 +16,13 @@ public class TextureSender : MonoBehaviour
     Texture2D tex;
     public int width = 640;
     public int height = 480;
-    public int fps = 15;
+    public int fps = 30;
     float frameTime = 0f;
-    float FRAME_MAX = 0.2f;
+    float FRAME_MAX = 0.03f;
     bool stop = false;
-    //public string ip = "localhost";
-    public string ip = "192.168.1.106";
+    public string ip = "localhost";
     public int port = 4444;
-    public int messageByteLength = 24;
+    public int messageByteLength = 1024;
     Thread clientReceiveThread;
     Thread texSendThread;
     // TcpClient client;
