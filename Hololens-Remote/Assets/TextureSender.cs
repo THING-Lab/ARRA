@@ -22,7 +22,7 @@ public class TextureSender : MonoBehaviour
     bool stop = false;
     public string ip = "localhost";
     public int port = 4444;
-    public int messageByteLength = 1024;
+    public int messageByteLength = 24;
     Thread clientReceiveThread;
     Thread texSendThread;
     // TcpClient client;
