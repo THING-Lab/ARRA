@@ -120,8 +120,9 @@ public class VideoReciever : MonoBehaviour
     {
         if (shouldShowImage) {
             shouldShowImage = false;
-            tex.LoadImage(imageToShow);
-            tex.Apply();
+            if(tex.LoadImage(imageToShow)){
+              tex.Apply();
+            }
         }
     }
 }

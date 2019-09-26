@@ -1730,7 +1730,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcd0887d10993b847bc2e48006f8c32c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  messageByteLength: 1024
+  messageByteLength: 24
   port: 4444
 --- !u!1001 &1191499606
 PrefabInstance:
