@@ -9,9 +9,12 @@ using UnityEngine;
 
 public class VideoReciever : MonoBehaviour
 {
-    private TcpListener tcpListener;
+    public GameObject hmdStreamPanel;
+    public GameObject leftHandStreamPanel;
+    public GameObject remotePreviewStreamPanel;
+    private GameObject activePanel;
+    private int panelIndex = 0;
     private Thread udpListenerThread;
-    private TcpClient connectedTcpClient;
     public int messageByteLength = 24;
     public int port = 4444;
     private Texture2D tex;
@@ -26,7 +29,14 @@ public class VideoReciever : MonoBehaviour
         udpListenerThread.IsBackground = true;
         udpListenerThread.Start();
         tex = new Texture2D(640, 480);
-        GetComponent<Renderer>().material.mainTexture = tex;
+        hmdStreamPanel.GetComponent<Renderer>().material.mainTexture = tex;
+        leftHandStreamPanel.GetComponent<Renderer>().material.mainTexture = tex;
+        remotePreviewStreamPanel.GetComponent<Renderer>().material.mainTexture = tex;
+
+        hmdStreamPanel.SetActive(false);
+        leftHandStreamPanel.SetActive(false);
+        remotePreviewStreamPanel.SetActive(true);
+        activePanel = remotePreviewStreamPanel;
     }
 
     int frameByteArrayToByteLength(byte[] frameBytesLength) {
@@ -56,46 +66,16 @@ public class VideoReciever : MonoBehaviour
     }
 
     private void readFrameByteArray(byte[] stream, int size) {
-        // bool disconnected = false;
-        // byte[] imageBytes = new byte[size];
-        // var total = 0;
-        // do {
-        //         var read = stream.Read(imageBytes, total, size - total);
-        //         if (read == 0)
-        //         {
-        //         disconnected = true;
-        //         break;
-        //         }
-        //         total += read;
-        // } while (total != size);
-        // bool readyToReadAgain = false;
-        // //Display Image
-        // if (!disconnected) {
-        //      //Display Image on the main Thread
-        //      Loom.QueueOnMainThread(() => {
-        //              loadReceivedImage(imageBytes);
-        //              readyToReadAgain = true;
-        //      });
-        // }
         ShowImage(stream);
-        //Wait until old Image is displayed
-        // while (!readyToReadAgain) {
-        //      System.Threading.Thread.Sleep(1);
-        // }
     }
 
     private void ListenForTextures() {
         try {
-            // Create listener on localhost port 8052.
-            // tcpListener = new TcpListener(IPAddress.Any, 4444);
-            // tcpListener.Start();
             var udpListener = new UdpClient(4444);
             Debug.Log("Server is listening");
             var remoteEP =  new IPEndPoint(IPAddress.Any, 4444);
             while (true) {
                 while (true) {
-                    // Read Image Count
-                    //Debug.Log(c);
                     var c = udpListener.Receive(ref remoteEP);
                     int imageSize =  frameByteArrayToByteLength(c);
                     c = udpListener.Receive(ref remoteEP);
@@ -115,13 +95,34 @@ public class VideoReciever : MonoBehaviour
         return true;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (shouldShowImage) {
             shouldShowImage = false;
             if(tex.LoadImage(imageToShow)){
               tex.Apply();
+            }
+        }
+
+        // For toggling panels
+        if (OVRInput.GetDown(OVRInput.Button.One, OVRInput.Controller.LTouch)) {
+            panelIndex += 1;
+            if (panelIndex == 1) {
+                hmdStreamPanel.SetActive(false);
+                leftHandStreamPanel.SetActive(true);
+                remotePreviewStreamPanel.SetActive(false);
+                activePanel = leftHandStreamPanel;
+            } else if (panelIndex == 2) {
+                hmdStreamPanel.SetActive(true);
+                leftHandStreamPanel.SetActive(false);
+                remotePreviewStreamPanel.SetActive(false);
+                activePanel = hmdStreamPanel;
+            } else if (panelIndex == 3) {
+                panelIndex = 0;
+                hmdStreamPanel.SetActive(false);
+                leftHandStreamPanel.SetActive(false);
+                remotePreviewStreamPanel.SetActive(true);
+                activePanel = remotePreviewStreamPanel;
             }
         }
     }
