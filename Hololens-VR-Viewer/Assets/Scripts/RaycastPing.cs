@@ -30,6 +30,7 @@ public class RaycastPing : MonoBehaviour
                 preview.transform.position = hit.point;
                 previewLine.SetPosition(0, transform.position);
                 previewLine.SetPosition(1, hit.point);
+                sender.SendRay(transform.position, hit.point);
             }
             else
             {
@@ -42,6 +43,7 @@ public class RaycastPing : MonoBehaviour
         if (OVRInput.GetUp(OVRInput.Button.One, OVRInput.Controller.RTouch)) {
             isDown = false;
             RaycastHit hit;
+            sender.SendRay(Vector3.zero, Vector3.zero);
             // Does the ray intersect any objects excluding the player layer
             if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, targetLayer)) {
                 preview.transform.position = hit.point;

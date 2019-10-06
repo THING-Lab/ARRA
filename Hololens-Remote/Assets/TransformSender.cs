@@ -10,8 +10,7 @@ using UnityEngine;
 
 public class TransformSender : MonoBehaviour
 {
-    private UdpClient socketConnection;
-    //private TcpClient socketConnection;
+    private TcpClient socketConnection;     
     private Thread clientReceiveThread;
     public int port;
     public string ip;
@@ -19,8 +18,9 @@ public class TransformSender : MonoBehaviour
     private float FRAME_MAX = 0.03f;
     private CameraTransform cameraSerial = new CameraTransform();
     public GameObject pingTarget;
-    private ScenePing ping;
-    private bool shouldUpdateTransform = false;
+    public LineRenderer pingRay;
+    private bool receivedPacket = false;
+    private JSONPacket newPacket;
     public float scaleFactor = 1f;
 
     // Use this for initialization
@@ -36,69 +36,54 @@ public class TransformSender : MonoBehaviour
             SendJSON(JsonUtility.ToJson(cameraSerial));
         }
 
-        if (shouldUpdateTransform) {
-            shouldUpdateTransform = false;
-            pingTarget.transform.position = new Vector3(ping.position[0]/scaleFactor, ping.position[1]/scaleFactor, ping.position[2]/scaleFactor);
+        if (receivedPacket) {
+            switch (newPacket.type) {
+                case "PING":
+                    ScenePing ping = JsonUtility.FromJson<ScenePing>(newPacket.data);
+                    pingTarget.transform.position = new Vector3(ping.position[0], ping.position[1], ping.position[2]);
+                    break;
+                case "RAY":
+                    PointerRay ray = JsonUtility.FromJson<PointerRay>(newPacket.data);
+                    pingRay.SetPosition(0, new Vector3(ray.position1[0], ray.position1[1], ray.position1[2]));
+                    pingRay.SetPosition(1, new Vector3(ray.position2[0], ray.position2[1], ray.position2[2]));
+                    break;
+            }
+            receivedPacket = false;
         }
     }
 
-    //Becomes less needed with UDP, as it's connectionless
     private void ConnectToTcpServer () {
         try {
-            socketConnection = new UdpClient();
-            var remoteEP = new IPEndPoint(IPAddress.Parse(ip), port);
-            socketConnection.Connect(remoteEP);
-            Debug.Log("Connected!");
-
-        }
+            clientReceiveThread = new Thread(new ThreadStart(ListenForData));
+            clientReceiveThread.IsBackground = true;
+            clientReceiveThread.Start();
+        }       
         catch (Exception e) {
             Debug.Log("On client connect exception " + e);
         }
+    }   
+
+    private void ListenForData() {
+        try {
+            socketConnection = new TcpClient(ip, port);
+
+            while (true) {
+                // Get a stream object for reading
+                using (NetworkStream stream = socketConnection.GetStream()) {
+                    StreamReader reader = new StreamReader(stream, Encoding.ASCII);
+                    while(true) {
+                        string json = reader.ReadLine();
+                        newPacket = JsonUtility.FromJson<JSONPacket>(json);
+                        receivedPacket = true;
+                    }               
+                }
+			}
+        }
+        catch (SocketException socketException) {
+            Debug.Log("Socket exception: " + socketException);
+        }
     }
-
-    //Also less needed with UDP
-    // private void ListenForData() {
-    //     try {
-    //         socketConnection = new TcpClient(ip, port);
-    //
-    //         while (true) {
-    //             // Get a stream object for reading
-    //             using (NetworkStream stream = socketConnection.GetStream()) {
-    //                 StreamReader reader = new StreamReader(stream, Encoding.ASCII);
-    //                 while(true) {
-    //                     string json = reader.ReadLine();
-    //                     ping = JsonUtility.FromJson<ScenePing>(json);
-    //                     shouldUpdateTransform = true;
-    //                 }
-    //             }
-		// 	}
-    //     }
-    //     catch (SocketException socketException) {
-    //         Debug.Log("Socket exception: " + socketException);
-    //     }
-    // }
-
-
-    //LEGACY TCP CODE
-    // private void SendJSON(string msg) {
-    //     if (socketConnection == null) {
-    //         return;
-    //     }
-    //
-    //     try {
-    //         // Get a stream object for writing.
-    //         NetworkStream stream = socketConnection.GetStream();
-    //         if (stream.CanWrite) {
-    //             // Convert string message to byte array.
-    //             byte[] clientMessageAsByteArray = Encoding.ASCII.GetBytes(msg + "\r\n");
-    //             // Write byte array to socketConnection stream.
-    //             stream.Write(clientMessageAsByteArray, 0, clientMessageAsByteArray.Length);
-    //         }
-    //     }
-    //     catch (SocketException socketException) {
-    //         Debug.Log("Socket exception: " + socketException);
-    //     }
-    // }
+ 
     private void SendJSON(string msg) {
         if (socketConnection == null) {
             return;
@@ -106,9 +91,13 @@ public class TransformSender : MonoBehaviour
 
         try {
             // Get a stream object for writing.
-            byte[] clientMessageAsByteArray = Encoding.ASCII.GetBytes(msg + "\r\n");
-            // Write byte array to socketConnection.
-            socketConnection.Send(clientMessageAsByteArray, clientMessageAsByteArray.Length);
+            NetworkStream stream = socketConnection.GetStream();
+            if (stream.CanWrite) {
+                // Convert string message to byte array.
+                byte[] clientMessageAsByteArray = Encoding.ASCII.GetBytes(msg + "\r\n");
+                // Write byte array to socketConnection stream.
+                stream.Write(clientMessageAsByteArray, 0, clientMessageAsByteArray.Length);
+            }
         }
         catch (SocketException socketException) {
             Debug.Log("Socket exception: " + socketException);

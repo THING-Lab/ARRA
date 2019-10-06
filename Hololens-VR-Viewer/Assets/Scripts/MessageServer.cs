@@ -41,6 +41,13 @@ public class MessageServer : MonoBehaviour
         SendJSON(JsonUtility.ToJson(ping));
     }
 
+    public void SendRay(Vector3 p1, Vector3 p2) {
+        PointerRay ray = new PointerRay();
+        ray.SetAttributes(p1, p2);
+        JSONPacket packet = new JSONPacket("RAY", JsonUtility.ToJson(ray));
+        SendJSON(JsonUtility.ToJson(packet));
+    }
+
     private void SendJSON(string msg) {
         if (connectedTcpClient == null) {
             return;
