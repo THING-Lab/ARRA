@@ -1962,8 +1962,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcd0887d10993b847bc2e48006f8c32c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hmdStreamPanel: {fileID: 0}
-  leftHandStreamPanel: {fileID: 0}
+  hmdStreamPanel: {fileID: 204285266}
+  leftHandStreamPanel: {fileID: 509870802}
   remotePreviewStreamPanel: {fileID: 475154226}
   messageByteLength: 24
   port: 4444

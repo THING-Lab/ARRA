@@ -17,18 +17,21 @@ public class VideoReciever : MonoBehaviour
     private Thread udpListenerThread;
     public int messageByteLength = 24;
     public int port = 4444;
+
+    public int texWidth = 640;
+    public int texHeight = 480;
     private Texture2D tex;
     byte[] imageToShow;
     bool shouldShowImage = false;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         //Start UDP reciever background thread
         udpListenerThread = new Thread(new ThreadStart(ListenForTextures));
         udpListenerThread.IsBackground = true;
         udpListenerThread.Start();
-        tex = new Texture2D(640, 480);
+        tex = new Texture2D(texWidth, texHeight);
         hmdStreamPanel.GetComponent<Renderer>().material.mainTexture = tex;
         leftHandStreamPanel.GetComponent<Renderer>().material.mainTexture = tex;
         remotePreviewStreamPanel.GetComponent<Renderer>().material.mainTexture = tex;
