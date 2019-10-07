@@ -20,6 +20,7 @@ public class TransformSender : MonoBehaviour
     public GameObject pingTarget;
     public LineRenderer pingRay;
     private bool receivedPacket = false;
+    private bool isConnected = false;
     private JSONPacket newPacket;
     public float scaleFactor = 1f;
 
@@ -37,6 +38,7 @@ public class TransformSender : MonoBehaviour
         }
 
         if (receivedPacket) {
+            Debug.Log(newPacket.type);
             switch (newPacket.type) {
                 case "PING":
                     ScenePing ping = JsonUtility.FromJson<ScenePing>(newPacket.data);
@@ -61,26 +63,29 @@ public class TransformSender : MonoBehaviour
         catch (Exception e) {
             Debug.Log("On client connect exception " + e);
         }
-    }   
+    }
 
     private void ListenForData() {
-        try {
-            socketConnection = new TcpClient(ip, port);
-
-            while (true) {
-                // Get a stream object for reading
-                using (NetworkStream stream = socketConnection.GetStream()) {
-                    StreamReader reader = new StreamReader(stream, Encoding.ASCII);
-                    while(true) {
-                        string json = reader.ReadLine();
-                        newPacket = JsonUtility.FromJson<JSONPacket>(json);
-                        receivedPacket = true;
-                    }               
-                }
-			}
+        while (!isConnected) {
+            try {
+                socketConnection = new TcpClient(ip, port);
+                isConnected = true;
+            } catch (SocketException socketException) {
+                Debug.Log("Socket exception: " + socketException);
+                isConnected = false;
+            }
         }
-        catch (SocketException socketException) {
-            Debug.Log("Socket exception: " + socketException);
+
+        while (true) {
+            // Get a stream object for reading
+            using (NetworkStream stream = socketConnection.GetStream()) {
+                StreamReader reader = new StreamReader(stream, Encoding.ASCII);
+                while(true) {
+                    string json = reader.ReadLine();
+                    newPacket = JsonUtility.FromJson<JSONPacket>(json);
+                    receivedPacket = true;
+                }               
+            }
         }
     }
  

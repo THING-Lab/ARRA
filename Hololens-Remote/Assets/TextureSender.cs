@@ -120,7 +120,6 @@ public class TextureSender : MonoBehaviour
     {
         frameTime += Time.deltaTime;
         if (frameTime > FRAME_MAX) {
-            // if (!takingPhoto) TakePhoto();
             tex.SetPixels(webcam.GetPixels());
             tex.Apply();
             frameTime = 0;
