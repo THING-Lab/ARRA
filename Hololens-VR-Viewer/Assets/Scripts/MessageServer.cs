@@ -9,8 +9,8 @@ using System.Threading;
 using UnityEngine;
 
 public class MessageServer : MonoBehaviour
-{   
-    private TcpListener tcpListener;    
+{
+    private TcpListener tcpListener;
     private Thread tcpListenerThread;
     private TcpClient connectedTcpClient;
     public int port;
@@ -25,7 +25,11 @@ public class MessageServer : MonoBehaviour
         tcpListenerThread.IsBackground = true;
         tcpListenerThread.Start();
     }
-    
+
+    void OnApplicationQuit(){
+      tcpListenerThread.Abort();
+    }
+
     // Update is called once per frame
     void Update () {
         if (shouldUpdateTransform) {
@@ -38,7 +42,8 @@ public class MessageServer : MonoBehaviour
     public void SendPing(Vector3 position) {
         ScenePing ping = new ScenePing();
         ping.SetAttributes(position);
-        SendJSON(JsonUtility.ToJson(ping));
+        JSONPacket packet = new JSONPacket("PING", JsonUtility.ToJson(ping));
+        SendJSON(JsonUtility.ToJson(packet));
     }
 
     public void SendRay(Vector3 p1, Vector3 p2) {
@@ -69,11 +74,11 @@ public class MessageServer : MonoBehaviour
     }
 
     private void ListenForIncommingRequests () {
-        try {           
+        try {
             tcpListener = new TcpListener(IPAddress.Any, port);
-            tcpListener.Start();    
+            tcpListener.Start();
             Debug.Log("Server is listening");
-            
+
             while (true) {
                 // ISSUE: I BELIEVE THIS ONLY CREATES ONE THREAD FOR ALL LISTENERS :?
                 using (connectedTcpClient = tcpListener.AcceptTcpClient()) {
@@ -85,13 +90,13 @@ public class MessageServer : MonoBehaviour
                             string json = reader.ReadLine();
                             ct = JsonUtility.FromJson<CameraTransform>(json);
                             shouldUpdateTransform = true;
-                        }               
-                    }               
-                }           
-            }       
-        }       
-        catch (SocketException socketException) {           
-            Debug.Log("SocketException " + socketException.ToString());       
-        }     
+                        }
+                    }
+                }
+            }
+        }
+        catch (SocketException socketException) {
+            Debug.Log("SocketException " + socketException.ToString());
+        }
     }
 }
