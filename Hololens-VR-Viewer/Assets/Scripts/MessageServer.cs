@@ -46,6 +46,13 @@ public class MessageServer : MonoBehaviour
         SendJSON(JsonUtility.ToJson(packet));
     }
 
+    public void SetPing(Vector3 position) {
+        ScenePing ping = new ScenePing();
+        ping.SetAttributes(position);
+        JSONPacket packet = new JSONPacket("SET PING", JsonUtility.ToJson(ping));
+        SendJSON(JsonUtility.ToJson(packet));
+    }
+
     public void SendRay(Vector3 p1, Vector3 p2) {
         PointerRay ray = new PointerRay();
         ray.SetAttributes(p1, p2);
