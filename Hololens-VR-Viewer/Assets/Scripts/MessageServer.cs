@@ -60,6 +60,12 @@ public class MessageServer : MonoBehaviour
         SendJSON(JsonUtility.ToJson(packet));
     }
 
+    public void SendStroke(LineRenderer line) {
+        StrokeData stroke = new StrokeData(line);
+        JSONPacket packet = new JSONPacket("STROKE", JsonUtility.ToJson(stroke));
+        SendJSON(JsonUtility.ToJson(packet));
+    }
+
     private void SendJSON(string msg) {
         if (connectedTcpClient == null) {
             return;

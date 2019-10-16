@@ -155,7 +155,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e12d4d08d294904bbef55ff15a2afb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PingPrefab: {fileID: 7770974546170353237, guid: 917611f8a662a034680c4492b5d7ded9,
+  pingPrefab: {fileID: 7770974546170353237, guid: 917611f8a662a034680c4492b5d7ded9,
+    type: 3}
+  strokePrefab: {fileID: 4793249228469898383, guid: 0be3445ac720bd14fb6636a779bc2220,
     type: 3}
 --- !u!4 &420195486
 Transform:

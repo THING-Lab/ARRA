@@ -32,6 +32,20 @@ public class JSONPacket {
 }
 
 [System.Serializable]
+public class StrokeData {
+    public List<Vector3> points = new List<Vector3>();
+    public StrokeData(LineRenderer data) {
+        for (int i = 0; i < data.positionCount; i++) {
+            Vector3 newPoint = new Vector3();
+            newPoint.x = data.GetPosition(i).x;
+            newPoint.y = data.GetPosition(i).y;
+            newPoint.z = data.GetPosition(i).z;
+            points.Add(newPoint);
+        }
+    }
+}
+
+[System.Serializable]
 public class ScenePing {
     public List<float> position = new List<float>();
     public void SetAttributes(Vector3 p) {
