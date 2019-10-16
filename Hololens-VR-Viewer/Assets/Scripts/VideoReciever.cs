@@ -81,9 +81,12 @@ public class VideoReciever : MonoBehaviour
                 while (true) {
                     var c = udpListener.Receive(ref remoteEP);
                     int imageSize =  frameByteArrayToByteLength(c);
+                    //Debug.Log(imageSize);
                     c = udpListener.Receive(ref remoteEP);
                     //Read Image Bytes and Display it
-                    readFrameByteArray(c, imageSize);
+                    if(c.Length == imageSize){
+                      readFrameByteArray(c, imageSize);
+                    }
                 }
             }
         }
@@ -102,8 +105,9 @@ public class VideoReciever : MonoBehaviour
     {
         if (shouldShowImage) {
             shouldShowImage = false;
-            if(tex.LoadImage(imageToShow)){
-              tex.Apply();
+            if(ImageConversion.LoadImage(tex,imageToShow, false)){
+            } else {
+              Debug.Log("ERROR!");
             }
         }
 

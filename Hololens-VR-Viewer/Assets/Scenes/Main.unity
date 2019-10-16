@@ -395,7 +395,7 @@ Transform:
   m_GameObject: {fileID: 204285266}
   m_LocalRotation: {x: 0, y: 0.7071068, z: -0.7071068, w: 0}
   m_LocalPosition: {x: 0.07, y: 0.06, z: 0.35}
-  m_LocalScale: {x: 0.015, y: 0.015, z: 0.015}
+  m_LocalScale: {x: 0.02, y: 0.015, z: 0.01125}
   m_Children: []
   m_Father: {fileID: 2048022137}
   m_RootOrder: 0
@@ -1001,8 +1001,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 509870802}
   m_LocalRotation: {x: 0, y: 0.8660254, z: -0.5, w: 0}
-  m_LocalPosition: {x: 0, y: 0.042, z: 0.005}
-  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.015, y: 0.01, z: 0.0084375}
   m_Children: []
   m_Father: {fileID: 2048022136}
   m_RootOrder: 0
@@ -1818,17 +1818,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -2416733968201007103, guid: 54455e6457072f74ab3606ac7c949c6d,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: -2840136634868304333, guid: fd9fb1dd8a4e0bf42867cf42328846cb,
-        type: 3}
     - target: {fileID: 2834078683115760881, guid: 54455e6457072f74ab3606ac7c949c6d,
         type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: -2432090755550338912, guid: fd9fb1dd8a4e0bf42867cf42328846cb,
+        type: 3}
+    - target: {fileID: -2416733968201007103, guid: 54455e6457072f74ab3606ac7c949c6d,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: -2840136634868304333, guid: fd9fb1dd8a4e0bf42867cf42328846cb,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54455e6457072f74ab3606ac7c949c6d, type: 3}
@@ -2171,8 +2171,8 @@ MonoBehaviour:
   remotePreviewStreamPanel: {fileID: 475154226}
   messageByteLength: 24
   port: 4444
-  texWidth: 640
-  texHeight: 480
+  texWidth: 1920
+  texHeight: 1080
 --- !u!1001 &1213023395
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2180,11 +2180,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2048022136}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: ee312fb4528031b4da6078947e5836ac,
-        type: 3}
-      propertyPath: m_Name
-      value: oculus_cv1_controller_left
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: ee312fb4528031b4da6078947e5836ac,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2260,6 +2255,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 8d690edfa900cca41a20ff40b6cfa9bb, type: 2}
+    - target: {fileID: -927199367670048503, guid: ee312fb4528031b4da6078947e5836ac,
+        type: 3}
+      propertyPath: m_Name
+      value: oculus_cv1_controller_left
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee312fb4528031b4da6078947e5836ac, type: 3}
 --- !u!4 &1213023396 stripped
@@ -3377,11 +3377,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 999798766}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: f4cc9f559a098ff47a76ba9c9ff0cbe0,
-        type: 3}
-      propertyPath: m_Name
-      value: oculus_cv1_controller_right
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: f4cc9f559a098ff47a76ba9c9ff0cbe0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3442,6 +3437,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 8d690edfa900cca41a20ff40b6cfa9bb, type: 2}
+    - target: {fileID: -927199367670048503, guid: f4cc9f559a098ff47a76ba9c9ff0cbe0,
+        type: 3}
+      propertyPath: m_Name
+      value: oculus_cv1_controller_right
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f4cc9f559a098ff47a76ba9c9ff0cbe0, type: 3}
 --- !u!4 &2101199142 stripped
