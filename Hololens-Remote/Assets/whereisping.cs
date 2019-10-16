@@ -9,14 +9,7 @@ public class whereisping : MonoBehaviour
     public GameObject PingTarget;
 
     private Camera maincam;
-    Vector3 point = new Vector3();
-
     Vector3 objcoord, topleft, topright, bottomleft, bottomright = new Vector3();
-
-    float objdis, tldis, trdis, bldis, brdis;
-
-    Event currentEvent = new Event();
-   
 
     // Start is called before the first frame update
     void Start()
