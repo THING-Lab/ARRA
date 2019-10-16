@@ -20,7 +20,8 @@ public class TextureSender : MonoBehaviour
     float frameTime = 0f;
     float FRAME_MAX = 0.03f;
     bool stop = false;
-    public string ip = "localhost";
+    //public string ip = "localhost";
+    public string ip = "192.168.1.106";
     public int port = 4444;
     public int messageByteLength = 24;
     Thread clientReceiveThread;

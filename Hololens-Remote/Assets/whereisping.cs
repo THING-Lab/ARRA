@@ -4,47 +4,56 @@ using UnityEngine;
 
 public class whereisping : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public GameObject pingTarget;
+
     public GameObject Cube;
-    public Camera maincam;
-    public Vector3 RotateAmount;
-
-    Vector3 point = new Vector3();
     
-    Vector2 mousePos = new Vector2();
+    public GameObject PingTarget;
 
-    float smooth = 5.0f;
-    float tiltAngle = 60.0f;
+    private Camera maincam;
+    Vector3 objcoord, topleft, topright, bottomleft, bottomright = new Vector3();
+
+    // Start is called before the first frame update
     void Start()
     {
         maincam = Camera.main;
     }
 
-void OnGUI()
-    {
-        Event currentEvent = Event.current;
-
-        // Get the mouse position from Event.
-        // Note that the y position from Event is inverted.
-        //mousePos.x = currentEvent.mousePosition.x;
-        //mousePos.y = maincam.pixelHeight - currentEvent.mousePosition.y;
-        if(currentEvent.button == 0 && currentEvent.isMouse){
-        point = maincam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, maincam.nearClipPlane));
-
-         mousePos =
-                 new Vector2(maincam.ScreenToWorldPoint(Input.mousePosition).x,
-                 maincam.ScreenToWorldPoint(Input.mousePosition).y);
-
-        Debug.Log("Screen pixels: " + maincam.pixelWidth + ":" + maincam.pixelHeight);
-        Debug.Log("Mouse position: " + mousePos);
-        Debug.Log("World position: " + point.ToString("F3"));
-        }
-    }
     // Update is called once per frame
     void Update()
     {
-        //Cube.transform.Rotate(0, 50 * Time.deltaTime, 0);
-        Cube.transform.position = new Vector3(point.x, point.y, point.z+0.5f);
+        Vector3 newpos;
+        float tempx, tempy;
+        
+        tempx = PingTarget.transform.position.x;
+        tempy = PingTarget.transform.position.y;
+
+        objcoord = maincam.transform.InverseTransformPoint(PingTarget.transform.position);
+
+        if(objcoord.x > 0.45f || (objcoord.z < 0 && objcoord.x > 0))
+            tempx = 0.45f;
+        else if(objcoord.x < -0.45f || (objcoord.z < 0 && objcoord.x < 0))
+            tempx = -0.45f;
+        else tempx = objcoord.x;
+
+        if((objcoord.y > 0.25f && objcoord.z > 0))
+            tempy = 0.25f;
+        else if(objcoord.y < -0.25f)
+            tempy = -0.25f;
+        else tempy = objcoord.y;
+        
+        if(objcoord.z < 0)
+            tempy = 0;
+
+        if(objcoord.x < 0.5f && objcoord.x > -0.5f && objcoord.y < 0.3f && objcoord.y > -0.3f)
+            Cube.transform.GetComponent<Renderer>().enabled = false;
+        else
+            Cube.transform.GetComponent<Renderer>().enabled = true;
+        
+        newpos = new Vector3(tempx, tempy, 2); 
+        Cube.transform.localPosition = newpos;
+
+        Debug.DrawRay(maincam.transform.position, PingTarget.transform.position, Color.yellow);
+
+        Cube.transform.LookAt(new Vector3(PingTarget.transform.position.x, maincam.transform.position.y, PingTarget.transform.position.z));
     }
 }
