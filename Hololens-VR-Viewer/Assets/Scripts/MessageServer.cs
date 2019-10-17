@@ -66,6 +66,11 @@ public class MessageServer : MonoBehaviour
         SendJSON(JsonUtility.ToJson(packet));
     }
 
+    public void SendClear() {
+        JSONPacket packet = new JSONPacket("CLEAR", "");
+        SendJSON(JsonUtility.ToJson(packet));
+    }
+
     private void SendJSON(string msg) {
         Debug.Log(msg);
         if (connectedTcpClient == null) {

@@ -13,16 +13,17 @@ public class SuggestionTool : MonoBehaviour
     private bool isDown = false;
     private bool isDrawing = false;
 
-    void Start()
-    {
-    }
-
     void Update()
     {
         if (!isDown) {
             bool currentDown = OVRInput.GetDown(OVRInput.Button.One, OVRInput.Controller.RTouch);
             if (!isDown && currentDown) manager.CreatePing(new Vector3(0, -100, 0));
             isDown = currentDown;
+        }
+
+        if (OVRInput.GetDown(OVRInput.Button.Two, OVRInput.Controller.LTouch)) {
+            manager.Clear();
+            sender.SendClear();
         }
 
         if (isDown) {

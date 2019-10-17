@@ -20,7 +20,7 @@ public class ScanController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float triggerVal = OVRInput.Get(OVRInput.Axis1D.SecondaryHandTrigger, OVRInput.Controller.LTouch);
+        float triggerVal = OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger, OVRInput.Controller.LTouch);
         if (triggerVal > 0.4f && !wasTriggerPress) {
             environments[currentEnv].SetActive(false);
 
