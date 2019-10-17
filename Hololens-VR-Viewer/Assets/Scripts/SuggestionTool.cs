@@ -68,7 +68,7 @@ public class SuggestionTool : MonoBehaviour
             isDrawing = true;
         }
 
-        if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch) < 0.4f) {
+        if (isDrawing && OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch) < 0.4f) {
             isDrawing = false;
             sender.SendStroke(manager.CurrentStroke);
         }
