@@ -51,6 +51,7 @@ public class SuggestionTool : MonoBehaviour
             isDown = false;
             RaycastHit hit;
             sender.SendRay(Vector3.zero, Vector3.zero);
+
             // Does the ray intersect any objects excluding the player layer
             if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, targetLayer)) {
                 preview.transform.position = hit.point;

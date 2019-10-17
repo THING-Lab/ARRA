@@ -23,6 +23,7 @@ public class SuggestionManager : MonoBehaviour
         suggestions.Add(newPing);
         newPing.transform.parent = transform;
         newPing.transform.position = pos;
+        currentPing = newPing;
         return newPing;
     }
 
@@ -49,6 +50,7 @@ public class SuggestionManager : MonoBehaviour
         foreach (GameObject go in suggestions) {
             Destroy(go);
         }
+        currentPing = null;
         suggestions.Clear();
     }
 }
