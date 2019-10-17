@@ -21,7 +21,7 @@ public class SuggestionTool : MonoBehaviour
             isDown = currentDown;
         }
 
-        if (OVRInput.GetDown(OVRInput.Button.Two, OVRInput.Controller.LTouch)) {
+        if (OVRInput.GetDown(OVRInput.Button.Two, OVRInput.Controller.RTouch)) {
             manager.Clear();
             sender.SendClear();
         }
