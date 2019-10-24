@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4074691975024249485}
   - component: {fileID: 6254775264267643860}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: StrokePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,7 +48,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 3e4ff6c17fe39e547a18d0e2f6478bda, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -71,7 +71,7 @@ LineRenderer:
   m_Positions: []
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 0.01
     widthCurve:
       serializedVersion: 2
       m_Curve:

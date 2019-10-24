@@ -39,19 +39,25 @@ public class TransformSender : MonoBehaviour
         }
 
         if (receivedPacket) {
+            Debug.Log(newPacket.type);
             switch (newPacket.type) {
                 case "PING":
                     ScenePing ping = JsonUtility.FromJson<ScenePing>(newPacket.data);
                     pingTarget.transform.position = new Vector3(ping.position[0], ping.position[1], ping.position[2]);
                     break;
-                case "SET PING":
-                    ScenePing setPing = JsonUtility.FromJson<ScenePing>(newPacket.data);
-                    suggestions.AddPing(new Vector3(setPing.position[0], setPing.position[1], setPing.position[2]));
+                case "SETPING":
+                    Debug.Log("Set Ping mang");
+                    // ScenePing setPing = JsonUtility.FromJson<ScenePing>(newPacket.data);
+                    // suggestions.AddPing(new Vector3(setPing.position[0], setPing.position[1], setPing.position[2]));
                     break;
                 case "RAY":
                     PointerRay ray = JsonUtility.FromJson<PointerRay>(newPacket.data);
                     pingRay.SetPosition(0, new Vector3(ray.position1[0], ray.position1[1], ray.position1[2]));
                     pingRay.SetPosition(1, new Vector3(ray.position2[0], ray.position2[1], ray.position2[2]));
+                    break;
+                case "STROKE":
+                    StrokeData stroke = JsonUtility.FromJson<StrokeData>(newPacket.data);
+                    suggestions.AddStroke(stroke.points);
                     break;
                 case "CLEAR":
                     suggestions.Clear();
