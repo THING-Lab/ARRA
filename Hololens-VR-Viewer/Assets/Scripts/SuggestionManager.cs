@@ -19,12 +19,15 @@ public class SuggestionManager : MonoBehaviour
         if (currentPing != null) currentPing.transform.position = pos;
     }
     public GameObject CreatePing(Vector3 pos) {
-        GameObject newPing = Instantiate(PingPrefab);
-        suggestions.Add(newPing);
-        newPing.transform.parent = transform;
-        newPing.transform.position = pos;
-        currentPing = newPing;
-        return newPing;
+        if (currentPing == null)
+        {
+            GameObject newPing = Instantiate(PingPrefab);
+            suggestions.Add(newPing);
+            newPing.transform.parent = transform;
+            newPing.transform.position = pos;
+            currentPing = newPing;
+        }
+        return currentPing;
     }
 
     public Vector3 GetLastStrokePoint() {

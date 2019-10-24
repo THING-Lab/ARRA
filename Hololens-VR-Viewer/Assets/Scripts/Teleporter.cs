@@ -42,7 +42,7 @@ public class Teleporter : MonoBehaviour
             previewSpot.transform.position = hideVec;
         }
 
-        if (OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger, OVRInput.Controller.RTouch) > 0.4f) {
+        if (OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger, OVRInput.Controller.LTouch) > 0.4f) {
             wasHeld = true;
             ShowRaycast();
         } else if (wasHeld && hasTarget) {
@@ -51,7 +51,7 @@ public class Teleporter : MonoBehaviour
             wasHeld = false;
         }
 
-        if (OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger, OVRInput.Controller.RTouch) < 0.4f) {
+        if (OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger, OVRInput.Controller.LTouch) < 0.4f) {
             wasHeld = false;
         }
     }
