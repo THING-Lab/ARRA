@@ -95,12 +95,17 @@ public class TextureSender : MonoBehaviour
 
             //Fill total byte length to send. Result is stored in frameBytesLength
             byteLengthToFrameByteArray(imageBytes.Length, frameBytesLength);
-            if (client != null) {
                 texSendThread = new Thread(new ThreadStart(() => {
+
                     //Send total byte count first
                     client.Send(frameBytesLength, frameBytesLength.Length);
                     //Send the image bytes
-                    client.Send(imageBytes, imageBytes.Length);
+                    if(client.Send(imageBytes, imageBytes.Length) > 0){
+                      Debug.Log("Sent Positive");
+                    } else {
+                      Debug.Log("ERROR ON SEND!");
+                    }
+
                     //Sent. Set readyToGetFrame true
                     readyToGetFrame = false;
                 }));
