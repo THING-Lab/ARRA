@@ -78,9 +78,9 @@ public class VideoReciever : MonoBehaviour
             var udpListener = new UdpClient(4444);
             Debug.Log("Server is listening");
             var remoteEP =  new IPEndPoint(IPAddress.Any, 4444);
-            while (true) {
                 while (true) {
                     var c = udpListener.Receive(ref remoteEP);
+
                     int imageSize =  frameByteArrayToByteLength(c);
                     //Debug.Log(imageSize);
                     c = udpListener.Receive(ref remoteEP);
@@ -89,7 +89,6 @@ public class VideoReciever : MonoBehaviour
                       readFrameByteArray(c, imageSize);
                     }
                 }
-            }
         }
         catch (SocketException socketException) {
             Debug.Log("SocketException " + socketException.ToString());
@@ -107,6 +106,7 @@ public class VideoReciever : MonoBehaviour
         if (shouldShowImage) {
             shouldShowImage = false;
             if(ImageConversion.LoadImage(tex,imageToShow, false)){
+              Debug.Log("SUCCESS!");
             } else {
               Debug.Log("ERROR!");
             }
