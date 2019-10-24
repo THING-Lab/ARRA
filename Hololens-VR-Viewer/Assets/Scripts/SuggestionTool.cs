@@ -13,16 +13,17 @@ public class SuggestionTool : MonoBehaviour
     private bool isDown = false;
     private bool isDrawing = false;
 
-    void Start()
-    {
-    }
-
     void Update()
     {
         if (!isDown) {
             bool currentDown = OVRInput.GetDown(OVRInput.Button.One, OVRInput.Controller.RTouch);
             if (!isDown && currentDown) manager.CreatePing(new Vector3(0, -100, 0));
             isDown = currentDown;
+        }
+
+        if (OVRInput.GetDown(OVRInput.Button.Two, OVRInput.Controller.RTouch)) {
+            manager.Clear();
+            sender.SendClear();
         }
 
         if (isDown) {
@@ -51,6 +52,7 @@ public class SuggestionTool : MonoBehaviour
             isDown = false;
             RaycastHit hit;
             sender.SendRay(Vector3.zero, Vector3.zero);
+
             // Does the ray intersect any objects excluding the player layer
             if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, targetLayer)) {
                 preview.transform.position = hit.point;
@@ -68,7 +70,7 @@ public class SuggestionTool : MonoBehaviour
             isDrawing = true;
         }
 
-        if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch) < 0.4f) {
+        if (isDrawing && OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch) < 0.4f) {
             isDrawing = false;
             sender.SendStroke(manager.CurrentStroke);
         }

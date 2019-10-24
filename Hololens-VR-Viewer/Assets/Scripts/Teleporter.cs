@@ -42,12 +42,16 @@ public class Teleporter : MonoBehaviour
             previewSpot.transform.position = hideVec;
         }
 
-        if (OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger, OVRInput.Controller.RTouch) > 0.4f) {
+        if (OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger, OVRInput.Controller.LTouch) > 0.4f) {
             wasHeld = true;
             ShowRaycast();
         } else if (wasHeld && hasTarget) {
             // Teleport Player
             player.transform.position = new Vector3(tpTarget.x, player.transform.position.y, tpTarget.z);
+            wasHeld = false;
+        }
+
+        if (OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger, OVRInput.Controller.LTouch) < 0.4f) {
             wasHeld = false;
         }
     }

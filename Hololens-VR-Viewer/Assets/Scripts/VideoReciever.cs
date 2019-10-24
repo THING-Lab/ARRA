@@ -12,6 +12,7 @@ public class VideoReciever : MonoBehaviour
     public GameObject hmdStreamPanel;
     public GameObject leftHandStreamPanel;
     public GameObject remotePreviewStreamPanel;
+    public GameObject hmdBackPanel;
     private GameObject activePanel;
     private int panelIndex = 0;
     private Thread udpListenerThread;
@@ -116,17 +117,20 @@ public class VideoReciever : MonoBehaviour
             panelIndex += 1;
             if (panelIndex == 1) {
                 hmdStreamPanel.SetActive(false);
+                hmdBackPanel.SetActive(false);
                 leftHandStreamPanel.SetActive(true);
                 remotePreviewStreamPanel.SetActive(false);
                 activePanel = leftHandStreamPanel;
             } else if (panelIndex == 2) {
                 hmdStreamPanel.SetActive(true);
+                hmdBackPanel.SetActive(false);
                 leftHandStreamPanel.SetActive(false);
                 remotePreviewStreamPanel.SetActive(false);
                 activePanel = hmdStreamPanel;
             } else if (panelIndex == 3) {
                 panelIndex = 0;
                 hmdStreamPanel.SetActive(false);
+                hmdBackPanel.SetActive(true);
                 leftHandStreamPanel.SetActive(false);
                 remotePreviewStreamPanel.SetActive(true);
                 activePanel = remotePreviewStreamPanel;

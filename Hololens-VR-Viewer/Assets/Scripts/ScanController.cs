@@ -20,8 +20,9 @@ public class ScanController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float triggerVal = OVRInput.Get(OVRInput.Axis1D.SecondaryHandTrigger, OVRInput.Controller.LTouch);
-        if (triggerVal > 0.4f && !wasTriggerPress) {
+        bool triggerVal = OVRInput.GetDown(OVRInput.Button.Two, OVRInput.Controller.LTouch);
+        if (triggerVal)
+        {
             environments[currentEnv].SetActive(false);
 
             currentEnv += 1;
@@ -29,11 +30,14 @@ public class ScanController : MonoBehaviour
 
             environments[currentEnv].SetActive(true);
         }
+        /*if (triggerVal > 0.4f && !wasTriggerPress) {
+           
+        }
 
         if (triggerVal > 0.4f) {
             wasTriggerPress = true;
         } else {
             wasTriggerPress = false;
-        }
+        }*/
     }
 }

@@ -49,7 +49,7 @@ public class MessageServer : MonoBehaviour
     public void SetPing(Vector3 position) {
         ScenePing ping = new ScenePing();
         ping.SetAttributes(position);
-        JSONPacket packet = new JSONPacket("SET PING", JsonUtility.ToJson(ping));
+        JSONPacket packet = new JSONPacket("SETPING", JsonUtility.ToJson(ping));
         SendJSON(JsonUtility.ToJson(packet));
     }
 
@@ -66,7 +66,13 @@ public class MessageServer : MonoBehaviour
         SendJSON(JsonUtility.ToJson(packet));
     }
 
+    public void SendClear() {
+        JSONPacket packet = new JSONPacket("CLEAR", "");
+        SendJSON(JsonUtility.ToJson(packet));
+    }
+
     private void SendJSON(string msg) {
+        Debug.Log(msg);
         if (connectedTcpClient == null) {
             return;
         }
