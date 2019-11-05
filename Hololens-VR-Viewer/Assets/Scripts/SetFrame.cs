@@ -5,24 +5,19 @@ using UnityEngine;
 public class SetFrame : MonoBehaviour
 {
     public double startTime;
-    public GameObject hmdStreamPanel;
-    public GameObject leftHandStreamPanel;
-    public GameObject remotePreviewStreamPanel;
-    public GameObject hmdBackPanel;
     public UnityEngine.Video.VideoClip videoToPlay;
+    public GameObject[] panels;
 
     // Start is called before the first frame update
     void Start()
     {
-        //Build array of the panels for for loop.
-        GameObject[]  panels = new GameObject[] { hmdStreamPanel, leftHandStreamPanel, remotePreviewStreamPanel, hmdBackPanel };
-
         //Associate the Streamer to the Video Controller
         GameObject controller = GameObject.Find("Video Controller");
 
         //Build the Renderers
-        UnityEngine.Video.VideoPlayer[] streamers = new UnityEngine.Video.VideoPlayer[4];
-        for(int i=0; i<streamers.Length; i++)
+        int totalPanels = panels.Length;
+        UnityEngine.Video.VideoPlayer[] streamers = new UnityEngine.Video.VideoPlayer[totalPanels];
+        for(int i=0; i< totalPanels; i++)
         {
             streamers[i] = controller.AddComponent<UnityEngine.Video.VideoPlayer>();
             streamers[i].renderMode = UnityEngine.Video.VideoRenderMode.MaterialOverride;
