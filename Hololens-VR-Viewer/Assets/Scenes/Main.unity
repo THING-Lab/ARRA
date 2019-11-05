@@ -395,7 +395,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 94993151}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0.7071068, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0.674}
+  m_LocalPosition: {x: 0, y: 1.1, z: 1.51}
   m_LocalScale: {x: 0.16000018, y: 0.10000005, z: 0.090000026}
   m_Children: []
   m_Father: {fileID: 801788156}
@@ -655,7 +655,7 @@ GameObject:
   - component: {fileID: 204285269}
   - component: {fileID: 204285268}
   m_Layer: 0
-  m_Name: StreamPanel
+  m_Name: StreamPanel_EyeAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1880,7 +1880,7 @@ GameObject:
   - component: {fileID: 509870805}
   - component: {fileID: 509870804}
   m_Layer: 0
-  m_Name: StreamPanel
+  m_Name: StreamPanel_LeftHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3753,6 +3753,90 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2048022135}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1116134066
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1116134068}
+  - component: {fileID: 1116134069}
+  - component: {fileID: 1116134067}
+  m_Layer: 0
+  m_Name: Video Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!328 &1116134067
+VideoPlayer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1116134066}
+  m_Enabled: 0
+  m_VideoClip: {fileID: 32900000, guid: 97d3684ab0feaac459724fedee81e0d6, type: 3}
+  m_TargetCameraAlpha: 1
+  m_TargetCamera3DLayout: 0
+  m_TargetCamera: {fileID: 0}
+  m_TargetTexture: {fileID: 0}
+  m_TimeReference: 0
+  m_TargetMaterialRenderer: {fileID: 0}
+  m_TargetMaterialProperty: _MainTex
+  m_RenderMode: 4
+  m_AspectRatio: 2
+  m_DataSource: 0
+  m_PlaybackSpeed: 1
+  m_AudioOutputMode: 0
+  m_TargetAudioSources:
+  - {fileID: 0}
+  m_DirectAudioVolumes:
+  - 1
+  m_Url: 
+  m_EnabledAudioTracks: 01
+  m_DirectAudioMutes: 00
+  m_ControlledAudioTrackCount: 1
+  m_PlayOnAwake: 0
+  m_SkipOnDrop: 1
+  m_Looping: 1
+  m_WaitForFirstFrame: 1
+  m_FrameReadyEventEnabled: 0
+--- !u!4 &1116134068
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1116134066}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.53622746, y: 3.2334757, z: 0.5410429}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1116134069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1116134066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55dfffddeed5ef146b6f0f221bc9f71f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startTime: 60
+  hmdStreamPanel: {fileID: 94993151}
+  leftHandStreamPanel: {fileID: 509870802}
+  remotePreviewStreamPanel: {fileID: 204285266}
+  hmdBackPanel: {fileID: 776337515}
+  videoToPlay: {fileID: 32900000, guid: c74d57dfa877a0f44b3443e19db242e1, type: 3}
 --- !u!1 &1145481544
 GameObject:
   m_ObjectHideFlags: 0
