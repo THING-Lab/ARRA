@@ -85,6 +85,7 @@ public class TransformSender : MonoBehaviour
                 isConnected = true;
             } catch (SocketException socketException) {
                 Debug.Log("Socket exception: " + socketException);
+                socketConnection= null;
                 isConnected = false;
             }
         }

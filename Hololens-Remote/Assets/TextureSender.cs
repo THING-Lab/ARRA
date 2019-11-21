@@ -95,6 +95,7 @@ public class TextureSender : MonoBehaviour
 
             //Fill total byte length to send. Result is stored in frameBytesLength
             byteLengthToFrameByteArray(imageBytes.Length, frameBytesLength);
+            if (client != null) {
                 texSendThread = new Thread(new ThreadStart(() => {
 
                     //Send total byte count first
