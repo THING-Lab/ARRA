@@ -32,6 +32,40 @@ public class JSONPacket {
 }
 
 [System.Serializable]
+public class ScanMesh {
+    // Transform components
+    public Vector3 position;
+    public Quaternion rotation;
+
+    // Mesh components
+    public Vector3[] vertices;
+    public int[] triangles;
+    public Vector2[] uvs;
+
+    public ScanMesh(Vector3 pos, Quaternion rot, Vector3[] verts, int[] tris, Vector2[] inputuvs) {
+      // Assigning copies of these params so that we don't have to worry about future under the hood changes by the hololens
+      position = new Vector3(pos.x, pos.y, pos.z);
+      rotation = new Quaternion(rot.x, rot.y, rot.z, rot.w);
+
+      // Make a copy of mesh components as well
+      vertices = new Vector3[verts.Length];
+      for (int v = 0; v < verts.Length; v++) {
+        vertices[v] = new Vector3(verts[v].x, verts[v].y, verts[v].z);
+      }
+
+      triangles = new int[tris.Length];
+      for (int t = 0; t < tris.Length; t++) {
+        triangles[t] = tris[t];
+      }
+
+      uvs = new Vector2[inputuvs.Length];
+      for (int u = 0; u < inputuvs.Length; u++) {
+        uvs[u] = new Vector2(inputuvs[u].x, inputuvs[u].y);
+      }
+    }
+}
+
+[System.Serializable]
 public class StrokeData {
     public List<Vector3> points = new List<Vector3>();
     public StrokeData(LineRenderer data) {

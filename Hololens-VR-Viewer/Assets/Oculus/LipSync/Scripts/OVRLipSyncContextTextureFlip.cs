@@ -2,18 +2,19 @@
 Filename    :   OVRLipSyncContextTextureFlip.cs
 Content     :   This bridges the phoneme/viseme output to texture flip targets
 Created     :   August 7th, 2015
-Copyright   :   Copyright 2015 Oculus VR, Inc. All Rights reserved.
+Copyright   :   Copyright Facebook Technologies, LLC and its affiliates.
+                All rights reserved.
 
-Licensed under the Oculus VR Rift SDK License Version 3.1 (the "License");
-you may not use the Oculus VR Rift SDK except in compliance with the License,
+Licensed under the Oculus Audio SDK License Version 3.3 (the "License");
+you may not use the Oculus Audio SDK except in compliance with the License,
 which is provided at the time of installation or download, or which
 otherwise accompanies this software in either electronic or hard copy form.
 
 You may obtain a copy of the License at
 
-http://www.oculusvr.com/licenses/LICENSE-3.1
+https://developer.oculus.com/licenses/audio-3.3/
 
-Unless required by applicable law or agreed to in writing, the Oculus VR SDK
+Unless required by applicable law or agreed to in writing, the Oculus Audio SDK
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
@@ -31,11 +32,14 @@ public class OVRLipSyncContextTextureFlip : MonoBehaviour
     // Set the textures for each viseme. We should follow the viseme order as specified
     // by the Phoneme list
     [Tooltip("The texture used for each viseme.")]
+    [OVRNamedArray(new string[] { "sil", "PP", "FF", "TH", "DD", "kk", "CH",
+        "SS", "nn", "RR", "aa", "E", "ih", "oh", "ou" })]
     public Texture[] Textures = new Texture[OVRLipSync.VisemeCount];
 
     // smoothing amount
     [Range(1, 100)]
-    [Tooltip("Smoothing of 1 will yield only the current predicted viseme, 100 will yield an extremely smooth viseme response.")]
+    [Tooltip("Smoothing of 1 will yield only the current predicted viseme," +
+        "100 will yield an extremely smooth viseme response.")]
     public int smoothAmount = 70;
 
     // PRIVATE

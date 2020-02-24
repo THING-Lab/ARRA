@@ -1,22 +1,17 @@
 /************************************************************************************
+Copyright : Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
 
-Copyright   :   Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
-
-Licensed under the Oculus SDK License Version 3.4.1 (the "License");
-you may not use the Oculus SDK except in compliance with the License,
-which is provided at the time of installation or download, or which
-otherwise accompanies this software in either electronic or hard copy form.
+Licensed under the Oculus Utilities SDK License Version 1.31 (the "License"); you may not use
+the Utilities SDK except in compliance with the License, which is provided at the time of installation
+or download, or which otherwise accompanies this software in either electronic or hard copy form.
 
 You may obtain a copy of the License at
+https://developer.oculus.com/licenses/utilities-1.31
 
-https://developer.oculus.com/licenses/sdk-3.4.1
-
-Unless required by applicable law or agreed to in writing, the Oculus SDK
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
+Unless required by applicable law or agreed to in writing, the Utilities SDK distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+ANY KIND, either express or implied. See the License for the specific language governing
+permissions and limitations under the License.
 ************************************************************************************/
 
 using System;
@@ -36,6 +31,7 @@ using Node = UnityEngine.VR.VRNode;
 using NodeState = UnityEngine.VR.VRNodeState;
 using Settings = UnityEngine.VR.VRSettings;
 #else
+using Node = UnityEngine.VR.VRNode;
 using Settings = UnityEngine.VR.VRSettings;
 #endif
 
@@ -107,6 +103,8 @@ public class OVRDisplay
 	private EyeRenderDesc[] eyeDescs = new EyeRenderDesc[2];
 	private bool recenterRequested = false;
 	private int recenterRequestedFrameCount = int.MaxValue;
+	private OVRPose previousRelativeTrackingSpacePose;
+	private OVRManager.TrackingOrigin previousTrackingOrigin;
 
 	/// <summary>
 	/// Creates an instance of OVRDisplay. Called by OVRManager.
@@ -114,6 +112,12 @@ public class OVRDisplay
 	public OVRDisplay()
 	{
 		UpdateTextures();
+		if (OVRPlugin.GetSystemHeadsetType() == OVRPlugin.SystemHeadset.Oculus_Quest)
+		{
+			previousTrackingOrigin = OVRManager.instance.trackingOriginType;
+			OVRManager.TrackingOrigin relativeOrigin = (previousTrackingOrigin != OVRManager.TrackingOrigin.Stage) ? OVRManager.TrackingOrigin.Stage : OVRManager.TrackingOrigin.EyeLevel;
+			previousRelativeTrackingSpacePose = OVRPlugin.GetTrackingTransformRelativePose((OVRPlugin.TrackingOrigin)relativeOrigin).ToOVRPose();
+		}
 	}
 
 	/// <summary>
@@ -131,6 +135,18 @@ public class OVRDisplay
 			}
 			recenterRequested = false;
 			recenterRequestedFrameCount = int.MaxValue;
+		}
+		if (OVRPlugin.GetSystemHeadsetType() == OVRPlugin.SystemHeadset.Oculus_Quest)
+		{
+			OVRManager.TrackingOrigin relativeOrigin = (OVRManager.instance.trackingOriginType != OVRManager.TrackingOrigin.Stage) ? OVRManager.TrackingOrigin.Stage : OVRManager.TrackingOrigin.EyeLevel;
+			OVRPose relativeTrackingSpacePose = OVRPlugin.GetTrackingTransformRelativePose((OVRPlugin.TrackingOrigin)relativeOrigin).ToOVRPose();
+			//If the tracking origin type hasn't switched and the relative pose changes, a recenter occurred.
+			if (previousTrackingOrigin == OVRManager.instance.trackingOriginType && previousRelativeTrackingSpacePose != relativeTrackingSpacePose && RecenteredPose != null)
+			{
+				RecenteredPose();
+			}
+			previousRelativeTrackingSpacePose = relativeTrackingSpacePose;
+			previousTrackingOrigin = OVRManager.instance.trackingOriginType;
 		}
 	}
 
@@ -150,9 +166,9 @@ public class OVRDisplay
 		UnityEngine.VR.InputTracking.Recenter();
 #endif
 
-		// The current poses are cached for the current frame and won't be updated immediately 
-		// after UnityEngine.VR.InputTracking.Recenter(). So we need to wait until next frame 
-		// to trigger the RecenteredPose delegate. The application could expect the correct pose 
+		// The current poses are cached for the current frame and won't be updated immediately
+		// after UnityEngine.VR.InputTracking.Recenter(). So we need to wait until next frame
+		// to trigger the RecenteredPose delegate. The application could expect the correct pose
 		// when the RecenteredPose delegate get called.
 		recenterRequested = true;
 		recenterRequestedFrameCount = Time.frameCount;
@@ -162,95 +178,19 @@ public class OVRDisplay
 #endif
 	}
 
-	//4 types of node state properties that can be queried with UnityEngine.XR
-	public enum NodeStatePropertyType
-	{
-		Acceleration,
-		AngularAcceleration	,
-		Velocity,
-		AngularVelocity,
-	}
-
-#if UNITY_2017_1_OR_NEWER
-	public Vector3 GetNodeStateProperty(Node nodeType, NodeStatePropertyType propertyType)
-	{
-		List<NodeState> nodeStateList = new List<NodeState>();
-		InputTracking.GetNodeStates(nodeStateList);
-
-		if (nodeStateList.Count == 0)
-			return Vector3.zero;
-
-		bool nodeStateFound = false;
-		NodeState requestedNodeState = nodeStateList[0];
-
-		for (int i = 0; i < nodeStateList.Count; i++)
-		{
-			if (nodeStateList[i].nodeType == nodeType)
-			{
-				requestedNodeState = nodeStateList[i];
-				nodeStateFound = true;
-				break;
-			}
-		}
-
-		if (!nodeStateFound)
-			return Vector3.zero;
-
-		Vector3 retVec;
-		if (propertyType == NodeStatePropertyType.Acceleration)
-		{
-			if (requestedNodeState.TryGetAcceleration(out retVec))
-			{
-				return retVec;
-			}
-		}
-		else if (propertyType == NodeStatePropertyType.AngularAcceleration)
-		{
-#if UNITY_2017_2_OR_NEWER
-			if (requestedNodeState.TryGetAngularAcceleration(out retVec))
-			{
-				retVec = retVec * Mathf.Rad2Deg;
-				return retVec;
-			}
-#endif
-		}
-		else if (propertyType == NodeStatePropertyType.Velocity)
-		{
-			if (requestedNodeState.TryGetVelocity(out retVec))
-			{
-				return retVec;
-			}
-		}
-		else if (propertyType == NodeStatePropertyType.AngularVelocity)
-		{
-#if UNITY_2017_2_OR_NEWER
-			if (requestedNodeState.TryGetAngularVelocity(out retVec))
-			{
-				retVec = retVec * Mathf.Rad2Deg;
-				return retVec;
-			}
-#endif
-		}
-
-		return Vector3.zero;
-	}
-#endif
-
 	/// <summary>
 	/// Gets the current linear acceleration of the head.
 	/// </summary>
 	public Vector3 acceleration
 	{
-		get {			
+		get {
 			if (!OVRManager.isHmdPresent)
 				return Vector3.zero;
 
-#if UNITY_2017_1_OR_NEWER
-			return GetNodeStateProperty(Node.Head, NodeStatePropertyType.Acceleration);
-#else
-			return OVRPlugin.GetNodeAcceleration(OVRPlugin.Node.Head, OVRPlugin.Step.Render).FromFlippedZVector3f();
-#endif
-
+			Vector3 retVec = Vector3.zero;
+			if (OVRNodeStateProperties.GetNodeStatePropertyVector3(Node.Head, NodeStatePropertyType.Acceleration, OVRPlugin.Node.Head, OVRPlugin.Step.Render, out retVec))
+				return retVec;
+			return Vector3.zero;
 		}
 	}
 
@@ -264,11 +204,10 @@ public class OVRDisplay
             if (!OVRManager.isHmdPresent)
 				return Vector3.zero;
 
-#if UNITY_2017_2_OR_NEWER
-			return GetNodeStateProperty(Node.Head, NodeStatePropertyType.AngularAcceleration);
-#else
-			return OVRPlugin.GetNodeAngularAcceleration(OVRPlugin.Node.Head, OVRPlugin.Step.Render).FromFlippedZVector3f() * Mathf.Rad2Deg;
-#endif
+			Vector3 retVec = Vector3.zero;
+			if (OVRNodeStateProperties.GetNodeStatePropertyVector3(Node.Head, NodeStatePropertyType.AngularAcceleration, OVRPlugin.Node.Head, OVRPlugin.Step.Render, out retVec))
+				return retVec;
+			return Vector3.zero;
 
         }
     }
@@ -283,15 +222,13 @@ public class OVRDisplay
             if (!OVRManager.isHmdPresent)
                 return Vector3.zero;
 
-#if UNITY_2017_1_OR_NEWER
-			return GetNodeStateProperty(Node.Head, NodeStatePropertyType.Velocity);
-#else
-			return OVRPlugin.GetNodeVelocity(OVRPlugin.Node.Head, OVRPlugin.Step.Render).FromFlippedZVector3f();
-#endif
-
-        }
+			Vector3 retVec = Vector3.zero;
+			if (OVRNodeStateProperties.GetNodeStatePropertyVector3(Node.Head, NodeStatePropertyType.Velocity, OVRPlugin.Node.Head, OVRPlugin.Step.Render, out retVec))
+				return retVec;
+			return Vector3.zero;
+		}
     }
-	
+
 	/// <summary>
 	/// Gets the current angular velocity of the head in radians per second about each axis.
 	/// </summary>
@@ -301,12 +238,10 @@ public class OVRDisplay
 			if (!OVRManager.isHmdPresent)
 				return Vector3.zero;
 
-#if UNITY_2017_2_OR_NEWER
-			return GetNodeStateProperty(Node.Head, NodeStatePropertyType.AngularVelocity);
-#else
-			return OVRPlugin.GetNodeAngularVelocity(OVRPlugin.Node.Head, OVRPlugin.Step.Render).FromFlippedZVector3f() * Mathf.Rad2Deg;
-#endif
-
+			Vector3 retVec = Vector3.zero;
+			if (OVRNodeStateProperties.GetNodeStatePropertyVector3(Node.Head, NodeStatePropertyType.AngularVelocity, OVRPlugin.Node.Head, OVRPlugin.Step.Render, out retVec))
+				return retVec;
+			return Vector3.zero;
 		}
 	}
 
@@ -342,7 +277,7 @@ public class OVRDisplay
             {
                 ret.render = float.Parse(match.Groups[1].Value);
                 ret.timeWarp = float.Parse(match.Groups[2].Value);
-                ret.postPresent = float.Parse(match.Groups[3].Value);     
+                ret.postPresent = float.Parse(match.Groups[3].Value);
             }
 
             return ret;
@@ -374,7 +309,7 @@ public class OVRDisplay
 
 			if (result == 1)
 				result = 0;
-			
+
 			return result;
 		}
 	}

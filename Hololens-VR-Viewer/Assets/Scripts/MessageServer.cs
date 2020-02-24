@@ -15,13 +15,16 @@ public class MessageServer : MonoBehaviour
     private TcpClient connectedTcpClient;
     public int port;
     public float scale;
-    CameraTransform ct;
-    bool shouldUpdateTransform = false;
+    // CameraTransform ct;
+    // bool shouldUpdateTransform = false;
+    bool recievedPacket = false;
+    JSONPacket newPacket;
+    public GameObject scanMeshPrefab;
 
     // Use this for initialization
     void Start () {
         // Start TcpServer background thread
-        tcpListenerThread = new Thread (new ThreadStart(ListenForIncommingRequests));
+        tcpListenerThread = new Thread(new ThreadStart(ListenForIncommingRequests));
         tcpListenerThread.IsBackground = true;
         tcpListenerThread.Start();
     }
@@ -32,10 +35,20 @@ public class MessageServer : MonoBehaviour
 
     // Update is called once per frame
     void Update () {
-        if (shouldUpdateTransform) {
-            transform.position = new Vector3(ct.position[0] * scale, ct.position[1] * scale, ct.position[2] * scale);
-            transform.rotation = new Quaternion(ct.rotation[0], ct.rotation[1], ct.rotation[2], ct.rotation[3]);
-            shouldUpdateTransform = false;
+        if (recievedPacket) {
+            switch (newPacket.type) {
+                case "CAMERA":
+                    CameraTransform ct = JsonUtility.FromJson<CameraTransform>(newPacket.data);
+                    transform.position = new Vector3(ct.position[0] * scale, ct.position[1] * scale, ct.position[2] * scale);
+                    transform.rotation = new Quaternion(ct.rotation[0], ct.rotation[1], ct.rotation[2], ct.rotation[3]);
+                    recievedPacket = false;
+                    break;
+                case "SCAN_MESH":
+                    GameObject newScan = Instantiate(scanMeshPrefab);
+                    newScan.GetComponent<ScanMeshRender>().SetMesh(newPacket.data);
+                    recievedPacket = false;
+                    break;
+            }
         }
     }
 
@@ -107,8 +120,8 @@ public class MessageServer : MonoBehaviour
                         StreamReader reader = new StreamReader(stream, Encoding.ASCII);
                         while(true) {
                             string json = reader.ReadLine();
-                            ct = JsonUtility.FromJson<CameraTransform>(json);
-                            shouldUpdateTransform = true;
+                            newPacket = JsonUtility.FromJson<JSONPacket>(json);
+                            recievedPacket = true;
                         }
                     }
                 }
