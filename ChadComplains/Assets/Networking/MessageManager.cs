@@ -17,6 +17,7 @@ public class MessageManager : MonoBehaviour
     private float frameTime = 0f;
     private float FRAME_MAX = 0.03f;
     private CameraTransform cameraSerial = new CameraTransform();
+    private bool searchingForServer;
     public GameObject mainCamera;
     public GameObject pingTarget;
     // public LineRenderer pingRay;
@@ -29,6 +30,11 @@ public class MessageManager : MonoBehaviour
     // Use this for initialization
     void Start () {
         ConnectToTcpServer();
+    }
+
+    void OnApplicationQuit()
+    {
+        SendJSON(JsonUtility.ToJson(new JSONPacket("CLOSE", JsonUtility.ToJson("END"))));
     }
 
     // Update is called once per frame
@@ -65,6 +71,7 @@ public class MessageManager : MonoBehaviour
     }
 
     private void ConnectToTcpServer () {
+        
         try {
             clientReceiveThread = new Thread(new ThreadStart(ListenForData));
             clientReceiveThread.IsBackground = true;
@@ -76,30 +83,57 @@ public class MessageManager : MonoBehaviour
     }
 
     private void ListenForData() {
-        while (!isConnected) {
-            try {
-                socketConnection = new TcpClient(ip, port);
-                isConnected = true;
-            } catch (SocketException socketException) {
-                Debug.Log("Socket exception: " + socketException);
-                socketConnection= null;
-                isConnected = false;
+        DateTime start = DateTime.Now.AddSeconds(4);
+        while (true)
+        {
+            if (start.CompareTo(DateTime.Now) > 0) continue;
+            Debug.Log("Trying to Find Server!");
+            while (!isConnected)
+            {
+                try
+                {
+                    socketConnection = new TcpClient(ip, port);
+                    Debug.Log("Connected to Server!");
+                    isConnected = true;
+                }
+                catch (SocketException socketException)
+                {
+                    Debug.Log("Socket exception: " + socketException);
+                    socketConnection = null;
+                    isConnected = false;
+                }
             }
-        }
 
-        while (true) {
-            // Get a stream object for reading
-            using (NetworkStream stream = socketConnection.GetStream()) {
-                StreamReader reader = new StreamReader(stream, Encoding.ASCII);
-                while(true) {
-                    string json = reader.ReadLine();
-                    newPacket = JsonUtility.FromJson<JSONPacket>(json);
-                    receivedPacket = true;
-                }               
+            while (isConnected)
+            {
+                // Get a stream object for reading
+                using (NetworkStream stream = socketConnection.GetStream())
+                {
+                    StreamReader reader = new StreamReader(stream, Encoding.ASCII);
+                    while (true)
+                    {
+                        string json = reader.ReadLine();
+                        newPacket = JsonUtility.FromJson<JSONPacket>(json);
+                        receivedPacket = true;
+                        if (newPacket.type == "CLOSE")
+                        {
+                            Debug.Log("Server Disconnected");
+                            receivedPacket = false;
+                            isConnected = false;
+                            clientReceiveThread = new Thread(new ThreadStart(ListenForData));
+                            clientReceiveThread.IsBackground = true;
+                            clientReceiveThread.Start();
+                            break;
+                        }
+                    }
+                }
+                break;
             }
+            break;
         }
     }
  
+
     public void SendJSON(string msg) {
         if (socketConnection == null) {
             return;
@@ -107,16 +141,28 @@ public class MessageManager : MonoBehaviour
 
         try {
             // Get a stream object for writing.
-            NetworkStream stream = socketConnection.GetStream();
-            if (stream.CanWrite) {
-                // Convert string message to byte array.
-                byte[] clientMessageAsByteArray = Encoding.ASCII.GetBytes(msg + "\r\n");
-                // Write byte array to socketConnection stream.
-                stream.Write(clientMessageAsByteArray, 0, clientMessageAsByteArray.Length);
+            if (isConnected)
+            {
+                NetworkStream stream = socketConnection.GetStream();
+                if (stream.CanWrite)
+                {
+                    // Convert string message to byte array.
+                    byte[] clientMessageAsByteArray = Encoding.ASCII.GetBytes(msg + "\r\n");
+                    // Write byte array to socketConnection stream.
+                    stream.Write(clientMessageAsByteArray, 0, clientMessageAsByteArray.Length);
+                }
             }
         }
         catch (SocketException socketException) {
             Debug.Log("Socket exception: " + socketException);
+        }
+        catch
+        {
+            Debug.Log("Server Connection Error Assumed!");
+            socketConnection.Close();
+
+            isConnected = false;
+            receivedPacket = false;
         }
     }
 }
