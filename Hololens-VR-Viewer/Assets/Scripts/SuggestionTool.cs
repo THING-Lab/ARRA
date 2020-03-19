@@ -42,6 +42,7 @@ public class SuggestionTool : MonoBehaviour
             }
             else
             {
+                Debug.Log("hi");
                 sender.SendRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000);
                 sender.SendPing(new Vector3(0, -100, 0));
             }

@@ -106,9 +106,9 @@ public class VideoReciever : MonoBehaviour
         if (shouldShowImage) {
             shouldShowImage = false;
             if(ImageConversion.LoadImage(tex,imageToShow, false)){
-              Debug.Log("SUCCESS!");
+              //Debug.Log("SUCCESS!");
             } else {
-              Debug.Log("ERROR!");
+              //Debug.Log("ERROR!");
             }
         }
 

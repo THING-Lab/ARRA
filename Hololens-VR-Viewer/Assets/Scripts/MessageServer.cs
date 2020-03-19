@@ -13,10 +13,14 @@ public class MessageServer : MonoBehaviour
     private TcpListener tcpListener;
     private Thread tcpListenerThread;
     private TcpClient connectedTcpClient;
+    private bool isConnectedToClient = false;
     public int port;
     public float scale;
-    CameraTransform ct;
-    bool shouldUpdateTransform = false;
+    // CameraTransform ct;
+    // bool shouldUpdateTransform = false;
+    bool recievedPacket = false;
+    JSONPacket newPacket;
+    public GameObject scanMeshPrefab;
 
     // Use this for initialization
     void Start () {
@@ -27,15 +31,28 @@ public class MessageServer : MonoBehaviour
     }
 
     void OnApplicationQuit(){
-      tcpListenerThread.Abort();
+        SendJSON(JsonUtility.ToJson(new JSONPacket("CLOSE", JsonUtility.ToJson("END"))));
+        connectedTcpClient.GetStream().Close();
+        connectedTcpClient.Close();
     }
 
     // Update is called once per frame
     void Update () {
-        if (shouldUpdateTransform) {
-            transform.position = new Vector3(ct.position[0] * scale, ct.position[1] * scale, ct.position[2] * scale);
-            transform.rotation = new Quaternion(ct.rotation[0], ct.rotation[1], ct.rotation[2], ct.rotation[3]);
-            shouldUpdateTransform = false;
+        if (recievedPacket) {
+            switch (newPacket.type) {
+                case "CAMERA":
+                    CameraTransform ct = JsonUtility.FromJson<CameraTransform>(newPacket.data);
+                    transform.position = new Vector3(ct.position[0] * scale, ct.position[1] * scale, ct.position[2] * scale);
+                    transform.rotation = new Quaternion(ct.rotation[0], ct.rotation[1], ct.rotation[2], ct.rotation[3]);
+                    recievedPacket = false;
+                    break;
+                case "SCAN_MESH":
+                    Debug.Log("Recieved a Scan Mesh");
+                    GameObject newScan = Instantiate(scanMeshPrefab);
+                    newScan.GetComponent<ScanMeshRenderer>().SetMesh(newPacket.data);
+                    recievedPacket = false;
+                    break;
+            }
         }
     }
 
@@ -98,17 +115,29 @@ public class MessageServer : MonoBehaviour
             tcpListener.Start();
             Debug.Log("Server is listening");
 
-            while (true) {
+             while (true) {
                 // ISSUE: I BELIEVE THIS ONLY CREATES ONE THREAD FOR ALL LISTENERS :?
                 using (connectedTcpClient = tcpListener.AcceptTcpClient()) {
-                Debug.Log("client connected");
+                    isConnectedToClient = true;
+
+                    Debug.Log("Client connected");
                     // Get a stream object for reading
                     using (NetworkStream stream = connectedTcpClient.GetStream()) {
                         StreamReader reader = new StreamReader(stream, Encoding.ASCII);
                         while(true) {
                             string json = reader.ReadLine();
-                            ct = JsonUtility.FromJson<CameraTransform>(json);
-                            shouldUpdateTransform = true;
+                            newPacket = JsonUtility.FromJson<JSONPacket>(json);
+                            if(newPacket.type == "CLOSE")
+                            {
+                                recievedPacket = false;
+                                stream.Close();
+                                connectedTcpClient.Close();
+                                isConnectedToClient = false;
+                                Debug.Log("Client Disconnected.");
+                                break;
+                            }
+                            recievedPacket = true;
+                         
                         }
                     }
                 }
