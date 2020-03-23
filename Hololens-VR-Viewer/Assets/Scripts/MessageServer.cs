@@ -13,6 +13,7 @@ public class MessageServer : MonoBehaviour
     private TcpListener tcpListener;
     private Thread tcpListenerThread;
     private TcpClient connectedTcpClient;
+    public GameObject cameraObj;
     private bool isConnectedToClient = false;
     private string meshBeingBuilt = "";
     public int port;
@@ -45,7 +46,7 @@ public class MessageServer : MonoBehaviour
                 case "CAMERA":
                     CameraTransform ct = JsonUtility.FromJson<CameraTransform>(newPacket.data);
                     transform.position = new Vector3(ct.position[0] * scale, ct.position[1] * scale, ct.position[2] * scale);
-                    transform.rotation = new Quaternion(ct.rotation[0], ct.rotation[1], ct.rotation[2], ct.rotation[3]);
+                    cameraObj.transform.rotation = new Quaternion(ct.rotation[0], ct.rotation[1], ct.rotation[2], ct.rotation[3]);
                     recievedPacket = false;
                     break;
                 case "SCAN_MESH":
