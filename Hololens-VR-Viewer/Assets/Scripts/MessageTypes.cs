@@ -22,6 +22,18 @@ public class CameraTransform {
 }
 
 [System.Serializable]
+public class MeshChunk{
+    public string data;
+    public bool isLastChunk;
+
+    public MeshChunk(string d, bool isLast)
+    {
+        data = d;
+        isLastChunk = isLast;
+    }
+}
+
+[System.Serializable]
 public class JSONPacket {
     public string type;
     public string data;

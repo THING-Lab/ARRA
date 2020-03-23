@@ -3111,7 +3111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a041b673972f4d243b42568970068c9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  port: 8000
+  port: 8888
   scale: 1
   scanMeshPrefab: {fileID: 2875128013191171628, guid: be129785611cba948b71d1e1612706ec,
     type: 3}

@@ -14,8 +14,10 @@ public class MessageServer : MonoBehaviour
     private Thread tcpListenerThread;
     private TcpClient connectedTcpClient;
     private bool isConnectedToClient = false;
+    private string meshBeingBuilt = "";
     public int port;
     public float scale;
+    private int countofscans;
     // CameraTransform ct;
     // bool shouldUpdateTransform = false;
     bool recievedPacket = false;
@@ -47,10 +49,12 @@ public class MessageServer : MonoBehaviour
                     recievedPacket = false;
                     break;
                 case "SCAN_MESH":
+                    countofscans += 1;
                     Debug.Log("Recieved a Scan Mesh");
                     GameObject newScan = Instantiate(scanMeshPrefab);
                     newScan.GetComponent<ScanMeshRenderer>().SetMesh(newPacket.data);
                     recievedPacket = false;
+                    Debug.Log("Scan Counts: " + countofscans);
                     break;
             }
         }
@@ -135,6 +139,24 @@ public class MessageServer : MonoBehaviour
                                 isConnectedToClient = false;
                                 Debug.Log("Client Disconnected.");
                                 break;
+                            }
+                            if(newPacket.type == "MESH_CHUNK")
+                            {
+                                Debug.Log("Recieved Mesh_CHONK");
+                                MeshChunk meshChunk = JsonUtility.FromJson<MeshChunk>(newPacket.data);
+                                meshBeingBuilt += meshChunk.data;
+                                if (meshChunk.isLastChunk)
+                                {
+                                    Debug.Log("IS LAST!");
+                                    countofscans += 1;
+                                    Debug.Log("SCAN COUNT: " + countofscans);
+                                    newPacket = new JSONPacket("SCAN_MESH", meshBeingBuilt);
+                                    meshBeingBuilt = "";
+                                    recievedPacket = true;
+                                    continue;
+                                }
+                                recievedPacket = false;
+
                             }
                             recievedPacket = true;
                          
