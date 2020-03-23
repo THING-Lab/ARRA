@@ -2148,6 +2148,10 @@ MonoBehaviour:
   sender: {fileID: 801788157}
   previewLine: {fileID: 1559125481}
   manager: {fileID: 1367246659}
+  fancyScan: {fileID: 1177738408}
+  hololensScan: {fileID: 1523085013}
+  noviceAvatar: {fileID: 1636304173}
+  noviceCamera: {fileID: 801788156}
 --- !u!1 &569534224 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100008, guid: ce816f2e6abb0504092c23ed9b970dfd,
@@ -3116,6 +3120,7 @@ MonoBehaviour:
   scale: 1
   scanMeshPrefab: {fileID: 2875128013191171628, guid: be129785611cba948b71d1e1612706ec,
     type: 3}
+  scanMeshParent: {fileID: 0}
 --- !u!1 &815625918
 GameObject:
   m_ObjectHideFlags: 0
@@ -4029,6 +4034,36 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1168747046}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1177738408
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1177738409}
+  m_Layer: 0
+  m_Name: FancyScan
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1177738409
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1177738408}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 2.102, y: 1.13, z: 0.13}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1177831761
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4339,7 +4374,7 @@ Transform:
   m_LocalScale: {x: 0.95427, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1201768737 stripped
 GameObject:
@@ -4602,7 +4637,7 @@ Transform:
   - {fileID: 1260681414}
   - {fileID: 5693039862985779150}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &1281764009
 GameObject:
@@ -4693,7 +4728,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1329630782
 GameObject:
@@ -5014,7 +5049,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1394389370 stripped
 GameObject:
@@ -5651,6 +5686,36 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1460569142}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1523085013
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1523085014}
+  m_Layer: 0
+  m_Name: HololensScan
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1523085014
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1523085013}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 2.102, y: 1.13, z: 0.13}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1531411048
 GameObject:
   m_ObjectHideFlags: 0
@@ -6029,6 +6094,7 @@ MonoBehaviour:
   scale: 1
   scanMeshPrefab: {fileID: 2875128013191171628, guid: be129785611cba948b71d1e1612706ec,
     type: 3}
+  scanMeshParent: {fileID: 1523085013}
 --- !u!1 &1672743942
 GameObject:
   m_ObjectHideFlags: 0

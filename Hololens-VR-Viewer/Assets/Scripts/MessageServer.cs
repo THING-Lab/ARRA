@@ -24,6 +24,7 @@ public class MessageServer : MonoBehaviour
     bool recievedPacket = false;
     JSONPacket newPacket;
     public GameObject scanMeshPrefab;
+    public GameObject scanMeshParent;
 
     // Use this for initialization
     void Start () {
@@ -55,6 +56,7 @@ public class MessageServer : MonoBehaviour
                     GameObject newScan = Instantiate(scanMeshPrefab);
                     newScan.GetComponent<ScanMeshRenderer>().SetMesh(newPacket.data);
                     recievedPacket = false;
+                    newScan.transform.parent = scanMeshParent.transform;
                     Debug.Log("Scan Counts: " + countofscans);
                     break;
             }

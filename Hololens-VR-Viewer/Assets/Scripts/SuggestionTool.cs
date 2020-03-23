@@ -13,8 +13,25 @@ public class SuggestionTool : MonoBehaviour
     private bool isDown = false;
     private bool isDrawing = false;
 
+    private bool isFancyScan = false;
+    public GameObject fancyScan;
+    public GameObject hololensScan;
+    public Transform noviceAvatar;
+    public Transform noviceCamera;
+
     void Update()
     {
+        if (!isFancyScan && OVRInput.GetDown(OVRInput.Button.One, OVRInput.Controller.LTouch)) {
+            // swap scans
+            fancyScan.SetActive(true);
+            hololensScan.SetActive(false);
+
+            // align with camera
+            fancyScan.transform.position = new Vector3(noviceAvatar.position.x, noviceAvatar.position.y, noviceAvatar.position.z);
+            fancyScan.transform.rotation = Quaternion.Euler(0f, noviceCamera.rotation.eulerAngles.y, 0f);
+            isFancyScan = true;
+        }
+
         if (!isDown) {
             bool currentDown = OVRInput.GetDown(OVRInput.Button.One, OVRInput.Controller.RTouch);
             if (!isDown && currentDown) manager.CreatePing(new Vector3(0, -100, 0));
