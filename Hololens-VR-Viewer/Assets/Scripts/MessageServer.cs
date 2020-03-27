@@ -59,6 +59,10 @@ public class MessageServer : MonoBehaviour
                     newScan.transform.parent = scanMeshParent.transform;
                     Debug.Log("Scan Counts: " + countofscans);
                     break;
+                default:
+                    recievedPacket = false;
+                    Debug.Log("Recieved Packet is true with unhandled type! Type: " + newPacket.type);
+                    break;
             }
         }
     }
@@ -159,6 +163,7 @@ public class MessageServer : MonoBehaviour
                                     continue;
                                 }
                                 recievedPacket = false;
+                                continue;
 
                             }
                             recievedPacket = true;
