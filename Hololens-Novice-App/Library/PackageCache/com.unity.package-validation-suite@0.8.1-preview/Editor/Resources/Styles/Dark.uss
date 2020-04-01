@@ -1,0 +1,29 @@
+#ValidationSuiteUIContainer {
+  flex-direction: row;
+}
+#ValidationSuiteUIContainer #ValidationActionContainer {
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+}
+#ValidationSuiteUIContainer #ValidationResultsContainer {
+  flex: 0;
+  flex-direction: row;
+  min-width: 225px;
+}
+#ValidationSuiteUIContainer #ValidationActionContainer Button {
+  flex: 0;
+  min-width: 100px;
+}
+#ValidationSuiteUIContainer #ValidationActionContainer Label {
+  flex: 1;
+  max-width: 125px;
+}
+#ValidationSuiteUIContainer #ValidationResultsContainer Button {
+  flex: 0;
+  min-width: 100px;
+}
+
+#ValidationSuiteUIContainer #ValidationResultsContainer Button.display-none {
+  min-width: 0;
+}

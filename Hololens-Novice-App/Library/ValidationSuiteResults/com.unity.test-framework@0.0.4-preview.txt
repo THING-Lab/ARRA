@@ -1,0 +1,65 @@
+Validation Suite Results for package "com.unity.test-framework"
+ - Path: C:\ChadIsOkay\Library\PackageCache\com.unity.test-framework@0.0.4-preview
+ - Version: 0.0.4-preview
+ - Lifecycle: 1
+ - Test Time: 3/12/2020 2:40:36 PM
+ - Tested with com.unity.package-validation-suite version: 0.8.1-preview
+
+PACKAGE DEPENDENCIES:
+--------------------
+    - com.unity.ext.nunit@0.1.5-preview
+    - nuget.mono-cecil@0.1.5-preview
+
+VALIDATION RESULTS:
+-------------------
+
+Failed - "API Validation"
+    Error: Compilation failed. Please fix any compilation errors.
+    
+Failed - "ChangeLog Validation"
+    Error: For '## [0.1.0] - 2017-MM-DD': Date '2017-MM-DD' does not follow ISO 8601 in 'C:\ChadIsOkay\Library\PackageCache\com.unity.test-framework@0.0.4-preview\CHANGELOG.md'. Expecting format 'YYYY-MM-DD'. Update the date to one of the supported values. Read more about this error and potential solutions at https://docs.unity3d.com/Packages/com.unity.package-validation-suite@latest/index.html?preview=1&subfolder=/manual/changelog_validation_error.html%23date-is-not-valid
+
+    Error: No changelog entry for version `0.0.4-preview` was found in 'C:\ChadIsOkay\Library\PackageCache\com.unity.test-framework@0.0.4-preview\CHANGELOG.md'. Please add or fix a section so you have a `## [0.0.4-preview] - YYYY-MM-DD` or `## [0.0.4] - YYYY-MM-DD` section. Read more about this error and potential solutions at https://docs.unity3d.com/Packages/com.unity.package-validation-suite@latest/index.html?preview=1&subfolder=/manual/changelog_validation_error.html%23no-changelog-entry-for-version-was-found
+    
+Failed - "Documentation Validation"
+    Error: Please rename your "Documentation" folder to "Documentation~" so that its files are ignored by the asset database.
+    
+Failed - "Manifest Validation"
+    Error: In package.json for a published package, there must be a "repository.url" field.
+
+    Error: In package.json for a published package, there must be a "repository.revision" field.
+    
+Failed - "API Updater Configuration Validation"
+    Error: Compilation failed. Please fix any compilation errors.
+    
+Failed - "Package Update Validation"
+    Error: Version 0.0.4-preview of this package already exists in production.
+    
+Failed - "Xmldoc Validation"
+    Error: Compilation failed. Please fix any compilation errors.
+    
+Succeeded - "Assembly Definition Validation"
+    
+Succeeded - "Folder Structure Validation"
+    
+Succeeded - "License Validation"
+    Warning: A LICENSE.md file exists in the package, but is in the wrong format.  Ensure the copyright year is set properly, otherwise, please check the package starter kit's license file as reference.  https://github.cds.internal.unity3d.com/unity/com.unity.package-validation-suite/blob/dev/LICENSE.md  It was `Test Framework copyright © 2018 Unity Technologies ApS` but was expecting `com.unity.test-framework copyright © 2020 Unity Technologies ApS` or `Test Framework copyright © 2020 Unity Technologies ApS`
+    
+Succeeded - "Package Lifecycle Validation"
+    
+Succeeded - "Meta Files Validation"
+    
+Succeeded - "Path Length Validation"
+    
+Succeeded - "Required File Type Validation"
+    
+Succeeded - "Restricted File Type Validation"
+    
+NotRun - "Package Diff Evaluation"
+    Information: No previous package version. Skipping diff evaluation.
+    
+NotRun - "Samples Validation"
+    Information: No samples found. Skipping Samples Validation.
+    
+NotImplementedYet - "Signature Validation"
+    
