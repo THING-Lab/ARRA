@@ -21,7 +21,7 @@ public class TextureSender : MonoBehaviour
     float FRAME_MAX = 0.03f;
     bool stop = false;
     //public string ip = "localhost";
-    public string ip = "192.168.1.106";
+    private string ip = "192.168.1.106";
     public int port = 4444;
     public int messageByteLength = 24;
     Thread clientReceiveThread;
@@ -32,6 +32,7 @@ public class TextureSender : MonoBehaviour
     bool isConnected = false;
 
     void Start() {
+        ip = GetComponent<MessageManager>().ip;
         // Start is called before the first frame update
         WebCamDevice[] devices = WebCamTexture.devices;
         // for debugging purposes, prints available devices to the console
