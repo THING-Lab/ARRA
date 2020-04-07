@@ -1,16 +1,15 @@
-# Getting the Demo Going
+# ARRA: Augmented Reality Remote Assistance
+This is the project repository and documentation for the the ARRA project, which is a set of companion AR and VR applications which enable communication between two distant parties.
 
-## On the Desktop with the Oculus
-- Make sure the Oculus Rift is ready to run.
-- Open the **Remote VR Viewer** in Unity
-- Run the project
+## Applications
+- [VR Expert Application](./VR-Expert-App): Enables a user to immerse themselves in the environment of the technician they are assisting.
+- [AR Technician Application](./Hololens-Novice-App): Enables a Technician to scan their environment and share it with an expert.
 
-## On the Laptop Connected to the Hololens
-- Make sure the camera is plugged in to the laptop through the USB extension
-- Open the **Hololens Remote** app in Unity
-- By default the Webcam streaming object is disabled, enable it for a video stream in the Inspector
-- Make sure the Hololens is on, and running the Remoting App
-- Connect to the Hololens in Unity via the Holographic tab (it should be at the bottom)
-- Place the Hololens on the calibration point
-- Make sure the Desktop app is running first
-- Run the project from the laptop and it should connect to Hololens
+## Setup
+- Download or Clone this project repository.
+- Install [Unity Hub](https://unity3d.com/get-unity/download)
+- Follow the separate setup instructions for each application: [Expert](./VR-Expert-App), [Technician](./Hololens-Novice-App)
+
+# Acknowledgments
+ARRA was first developed at the [ATLAS Institute](https://www.colorado.edu/atlas/) of the [Universtiy of Colorado Boulder](https://www.colorado.edu/) in collaboration with Ericsson Research.
+
