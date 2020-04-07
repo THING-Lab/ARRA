@@ -5,8 +5,8 @@ This application uses the Hololens with Unity through the MRTK's Holographic Rem
 
 ### Hardware
 - Acquire a USB Webcam and plug it into your computer
-- Print out [this]() camera mount for the Hololens
-- ...Get info on hardware setup from gabe
+- Print out [this](./Assets/Resources/hololensMount_V3.STL) camera mount for the Hololens (PLA is what we used).
+- To attach the mount properly, you will need a 1/4" 20 screw for the camera to screw on to, and a 1/8" with a nut for the sides.
 
 ### Software
 - Perform system setup for the MRTK specifically install Visual Studio 2019 and Windows SDK from [here](https://microsoft.github.io/MixedRealityToolkit-Unity/version/releases/2.1.0/Documentation/GettingStartedWithTheMRTK.html) (the MRTK is already installed in the project)
