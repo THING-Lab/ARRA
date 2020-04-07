@@ -21,6 +21,6 @@ To connect to expert, all you need to do is enter the IP address of the Expert's
 
 ## Features/Controls
 Once you connect to the Expert you will have access to the following features.
-- *Environment Scan*: By performing a 'pinch' gesture in front of the Hololens, you will begin a scan of the environment. The scan is generated as you look around, so to create a full scan of the room, make sure to look all parts of the room. To send the scan over, perform a 'pinch' again. Note, you can only perform a scan when the INSERT_ICON icon is present in the right corner of the view.
+- *Environment Scan*: By performing a 'pinch' gesture in front of the Hololens, you will begin a scan of the environment. The scan is generated as you look around, so to create a full scan of the room, make sure to look all parts of the room. To send the scan over, perform a 'pinch' again. Note, you can only begin a scan when the Mesh icon is Green in the right corner of the view.
 - *Expert Highlight*: When the expert sends a highlight you will see it in the environment. If you are not looking directly at it, a small white dot will appear at the edge of your view, indicating the direction you should look to find the highlight.
 - *Expert Annotation*: As the expert creates annotations, they will appear in the environment as red drawings.
