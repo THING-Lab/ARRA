@@ -11,10 +11,12 @@ ARRA comprises two distinct applications, a Virtual Reality application that run
 - [VR Expert Application](./VR-Expert-App): Enables a user to immerse themselves in the environment of the technician they are assisting.
 - [AR Technician Application](./Hololens-Novice-App/Readme.md#ar-technician-application): Enables a Technician to scan their environment and share it with an expert.
 
+
 ## Setup
 - Download or Clone this project repository.
 - Install [Unity Hub](https://unity3d.com/get-unity/download)
 - Follow the separate setup instructions (below) for each application: [Expert](./VR-Expert-App), [Technician](./Hololens-Novice-App/Readme.md#ar-technician-application)
+
 
 ## Acknowledgments
 ARRA was first developed at the [ATLAS Institute](atlas.colorado.edu) of the University of Colorado Boulder in collaboration with Ericsson Research.
