@@ -22,3 +22,7 @@ Once you are connected to a technician you will have the following features avai
 - *Teleporting*: To traverse the scan you can teleport by pointing the left controller at the ground and squeezing the middle finger trigger. When you let go, you will jump to that position.
 - *Highlight*:  By pressing the button labeled 'Highlight' on the right controller you can point at a part of the scan mesh in 3-dimensions to send a highlight to the Technician. This is sent when you let go of the button.
 - *Annotation*: By squeezing the trigger on the right hand you can draw annotations in 3D space. These are sent to the technician when you let go of the button. If you wish to clear the drawings, press the button labeled 'Clear' on the right controller. The clearing of the drawings will also update in the technician’s view.
+
+## Previous Scanning Method
+During the development of these applications, we investigated two methods of scanning the physical environment: (1) using the built-in Hololens scanning hardware and software, and (2) using a separate Kinect with Skanect Pro software. Our current version relies exclusively on the Hololens scanning method.
+In previous versions of this application we used a scan of the room that was created manually using a kinect, follow [this guide](https://github.com/THING-Lab/ARRA/blob/master/KinectScanning.md) if you would like to generate one of those scans. Our current application does not support importing manually generated scans, so you will have to edit the Unity project and add the scan to the scene yourself to use it.
