@@ -7,7 +7,7 @@ This application uses the Microsoft Hololens with Unity through the MRTK's Holog
 - Acquire a USB Webcam (we used [this](https://www.logitech.com/en-us/product/hd-pro-webcam-c920) camera, but any usb webcam will work with our system) and plug it into your computer.
 - Print out [this](./Assets/Resources/hololensMount_V3.STL) camera mount for the Hololens (PLA is what we used).
 - To attach the mount properly, you will need a 1/4 inch x 1/2 inch flat head screw for the camera to screw on to, and two 10-32 x 2 inch Round Head screw with a nut for the sides.
-![Hololens with Camera Mounted](../Images/hololens_no_caption.png)
+![Hololens with Camera Mounted](../Images/hololens_no_caption.png) </br>
 *Hololens with Camera Mounted*
 
 ### Software
@@ -24,9 +24,9 @@ To connect to expert, all you need to do is enter the IP address of the Expert's
 
 ## Features/Controls
 Once you connect to the Expert you will have access to the following features.
-- *Environment Scan*: By performing a 'pinch' gesture in front of the Hololens, you will begin a scan of the environment. On a successful gesture you will see white lines outlining the current scan. The scan is generated as you look around, so to create a full scan of the room, make sure to look at all parts of the room. To send the scan over to the expert app, perform a 'pinch' again. You will see the mesh preview disappear when the gesture is registered. Note, you can only begin a scan when the Mesh icon is green in the right corner of the view. While scanning it will appear white, and when the icon is red that indicates the Hololens is still mapping the environment. Below you can see what the scanning looks like.
+- **Environment Scan**: By performing a 'pinch' gesture in front of the Hololens, you will begin a scan of the environment. On a successful gesture you will see white lines outlining the current scan. The scan is generated as you look around, so to create a full scan of the room, make sure to look at all parts of the room. To send the scan over to the expert app, perform a 'pinch' again. You will see the mesh preview disappear when the gesture is registered. Note, you can only begin a scan when the Mesh icon is green in the right corner of the view. While scanning it will appear white, and when the icon is red that indicates the Hololens is still mapping the environment. Below you can see what the scanning looks like.
 ![View of what the Technician sees during scanning](../Images/mesh_scan.png)
 *Mesh preview during scan and icons*
 
-- *Expert Highlight*: When the expert sends a highlight you will see it as a virtual element overlaid in your view of the real world environment. If you are not looking directly at it, a small white dot will appear at the edge of your view, indicating the direction you should look to find the highlight.
-- *Expert Annotation*: As the expert creates annotations, they will appear overlaid in the view of the real environment as virtual red drawings.
+- **Expert Highlight**: When the expert sends a highlight you will see it as a virtual element overlaid in your view of the real world environment. If you are not looking directly at it, a small white dot will appear at the edge of your view, indicating the direction you should look to find the highlight.
+- **Expert Annotation**: As the expert creates annotations, they will appear overlaid in the view of the real environment as virtual red drawings.
