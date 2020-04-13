@@ -10,6 +10,9 @@ This is the project repository and documentation for the the ARRA project, which
 - Install [Unity Hub](https://unity3d.com/get-unity/download)
 - Follow the separate setup instructions for each application: [Expert](./VR-Expert-App), [Technician](./Hololens-Novice-App/Readme.md#ar-technician-application)
 
-# Acknowledgments
+## Alternative Scanning Methods
+If you want to try the previous scanning method we used, follow this [guide here](./KinectScanning.md). Note, this scan will require manual adjustment to align properly with the scene.
+
+## Acknowledgments
 ARRA was first developed at the [ATLAS Institute](https://www.colorado.edu/atlas/) of the [Universtiy of Colorado Boulder](https://www.colorado.edu/) in collaboration with Ericsson Research.
 
