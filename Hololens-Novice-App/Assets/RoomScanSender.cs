@@ -10,6 +10,7 @@ public class RoomScanSender : MonoBehaviour
     public GameObject boundaryVis;
     private bool shouldShowScan = false;
     private bool isSendingScan = false;
+    public ScanIndicator indicator;
 
     // Gesture stuff
     GestureRecognizer recognizer;
@@ -28,11 +29,13 @@ public class RoomScanSender : MonoBehaviour
     {
         // Set up a GestureRecognizer to detect Select gestures.
         recognizer = new GestureRecognizer();
+        indicator.SetCannotScan();
         recognizer.Tapped += (args) => {
             if (boundaryVisualizationFound && !isScanning && !isSendingScan) {
                 shouldShowScan = true;
                 isScanning = true;
                 scanTime = 0f;
+                indicator.SetIsScanning();
             } else if (isScanning) {
                 // generate mesh store and queue sending coroutine
                 scanMeshes.Clear();
@@ -105,6 +108,7 @@ public class RoomScanSender : MonoBehaviour
             // I'm doin this to limit the frequency we send meshes and potentially make it smoother
             yield return new WaitForSeconds(0.1f);
         }
+        indicator.SetCanScan();
         isSendingScan = false;
         Debug.Log("End sending scan");
     }
@@ -117,6 +121,7 @@ public class RoomScanSender : MonoBehaviour
                 boundaryVisualizationFound = true;
                 boundaryVis = GameObject.Find("Spatial Awareness System");
                 Debug.Log("Boundary Vis Located and Hidden");
+                indicator.SetCanScan();
             }
         } else {
             if (boundaryVis != null) {
