@@ -130,9 +130,9 @@ public class VideoReciever : MonoBehaviour
             } else if (panelIndex == 3) {
                 panelIndex = 0;
                 hmdStreamPanel.SetActive(false);
-                hmdBackPanel.SetActive(true);
+                hmdBackPanel.SetActive(false);
                 leftHandStreamPanel.SetActive(false);
-                remotePreviewStreamPanel.SetActive(true);
+                remotePreviewStreamPanel.SetActive(false);
                 activePanel = remotePreviewStreamPanel;
             }
         }

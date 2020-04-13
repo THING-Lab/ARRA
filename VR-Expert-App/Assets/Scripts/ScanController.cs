@@ -21,15 +21,15 @@ public class ScanController : MonoBehaviour
     void Update()
     {
         bool triggerVal = OVRInput.GetDown(OVRInput.Button.Two, OVRInput.Controller.LTouch);
-        if (triggerVal)
-        {
-            environments[currentEnv].SetActive(false);
+        // if (triggerVal)
+        // {
+        //     environments[currentEnv].SetActive(false);
 
-            currentEnv += 1;
-            if (currentEnv >= environments.Length) currentEnv = 0;
+        //     currentEnv += 1;
+        //     if (currentEnv >= environments.Length) currentEnv = 0;
 
-            environments[currentEnv].SetActive(true);
-        }
+        //     environments[currentEnv].SetActive(true);
+        // }
         /*if (triggerVal > 0.4f && !wasTriggerPress) {
            
         }
