@@ -2,9 +2,9 @@
   
   <!-- These are specific to this Unity project and can't be overridden -->
   <PropertyGroup>
-    <UnityProjectAssetsPath>C:\Users\ptgyo\Documents\ARRA\Hololens-Novice-App\Assets</UnityProjectAssetsPath>
+    <UnityProjectAssetsPath>C:\Users\ACME Lab 001\Documents\ARRA\Hololens-Novice-App\Assets</UnityProjectAssetsPath>
     
-    <_MSBuildForUnityGeneratedOutputDirectory>C:\Users\ptgyo\Documents\ARRA\Hololens-Novice-App\MSBuild</_MSBuildForUnityGeneratedOutputDirectory>
+    <_MSBuildForUnityGeneratedOutputDirectory>C:\Users\ACME Lab 001\Documents\ARRA\Hololens-Novice-App\MSBuild</_MSBuildForUnityGeneratedOutputDirectory>
     <MSBuildForUnityGeneratedProjectDirectory>$(_MSBuildForUnityGeneratedOutputDirectory)\Projects</MSBuildForUnityGeneratedProjectDirectory>
   </PropertyGroup>
   
