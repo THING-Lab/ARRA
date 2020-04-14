@@ -24,7 +24,7 @@ To connect to expert, all you need to do is enter the IP address of the Expert's
 
 ## Features/Controls
 Once you connect to the Expert you will have access to the following features.
-- **Environment Scan**: By performing a 'pinch' gesture in front of the Hololens, you will begin a scan of the environment. On a successful gesture you will see white lines outlining the current scan. The scan is generated as you look around, so to create a full scan of the room, make sure to look at all parts of the room. To send the scan over to the expert app, perform a 'pinch' again. You will see the mesh preview disappear when the gesture is registered. Note, you can only begin a scan when the Mesh icon is green in the right corner of the view. While scanning it will appear white, and when the icon is red that indicates the Hololens is still mapping the environment. Below you can see what the scanning looks like.
+- **Environment Scan**: By performing a 'pinch' gesture in front of the Hololens, you will begin a scan of the environment. On a successful gesture you will see white lines outlining the current scan. The scan is generated as you look around, so to create a full scan of the room, make sure you slowly move your head around the room until the mesh line correctly match the environment. To send the scan over to the expert app, perform a 'pinch' again. You will see the mesh preview disappear when the gesture is registered. *Note, you can only begin a scan when the Mesh icon in the right corner of the view is green. While scanning it will appear white, and when the icon is red that indicates the Hololens is still mapping the environment.*
 ![View of what the Technician sees during scanning](../Images/mesh_scan.png)
 *Mesh preview during scan and icons*
 
