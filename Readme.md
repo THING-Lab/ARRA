@@ -15,7 +15,7 @@ ARRA comprises two distinct applications, a Virtual Reality application that run
 ## Setup
 - Download or Clone this project repository.
 - Install [Unity Hub](https://unity3d.com/get-unity/download)
-- Follow the separate setup instructions (below) for each application: [Expert](./VR-Expert-App), [Technician](./Hololens-Novice-App/Readme.md#ar-technician-application)
+- Follow the separate setup instructions for each application: [Expert](./VR-Expert-App), [Technician](./Hololens-Novice-App/Readme.md#ar-technician-application)
 
 
 ## Acknowledgments
