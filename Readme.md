@@ -21,6 +21,6 @@ ARRA comprises two distinct applications, a Virtual Reality application that run
 ## Acknowledgments
 ARRA was first developed at the [ATLAS Institute](atlas.colorado.edu) of the University of Colorado Boulder in collaboration with Ericsson Research.
 
-**Faculty**: Ellen Yi-Luen Do (faculty lead), Amy Banic, Daniel Leithinger, Dan Szafir
+**Faculty**: Ellen Yi-Luen Do (faculty lead), Amy Banic, Mark Gross, Daniel Leithinger, Dan Szafir
 
 **Students**: Peter Gyory (student lead), Hyerin Soek, Chad Lewis, Gabriel Chapel
