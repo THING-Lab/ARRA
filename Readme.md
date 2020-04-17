@@ -1,7 +1,7 @@
 # ARRA: Augmented Reality Remote Assistance
 The Augmented Reality Remote Assistance (ARRA) project investigates the combination of virtual and augmented reality to support communication between two distant parties, for example, a repair expert guiding a less experienced technician in the field.  To illustrate this scenario we’ve prepared a five-minute video showing ARRA’s features as well as a one-minute “teaser” video.
 
-The project is a collaboration between the ACME Lab at the University of Colorado Boulder’s ATLAS Institute and Ericsson Research in Santa Clara, California.
+The project is a collaboration between the ACME, THING, and IRON labs from the University of Colorado Boulder’s ATLAS Institute and Ericsson Research in Santa Clara, California.
 
 The following provides information on the project repository and documentation for the ARRA project, which is a set of companion AR and VR applications that enable immersive communication between two distant parties. [This presentation](https://docs.google.com/presentation/d/1B6aqpBO0N1dppQSJGqj_WXARENiIOI8r8_WxDKFvpic/edit#slide=id.p1) provides an overview of the project.
 
